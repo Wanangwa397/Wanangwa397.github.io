@@ -21,9 +21,13 @@
     }
 
     nav {
+      background: #0f172a;
+      padding: 22px 30px;
+    }
+
+    .nav-container {
       max-width: 1100px;
       margin: auto;
-      padding: 25px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -32,49 +36,63 @@
     nav .name {
       font-size: 20px;
       font-weight: bold;
-      color: #111827;
+      color: #ffffff;
     }
 
     nav a {
-      color: #374151;
+      color: #dbeafe;
       text-decoration: none;
       margin-left: 25px;
+      font-weight: 500;
     }
 
     nav a:hover {
-      color: #2563eb;
+      color: #f2c811;
     }
 
     .hero {
+      background: linear-gradient(135deg, #0f172a, #1e3a5f);
+      color: white;
+      padding: 110px 30px 100px;
+    }
+
+    .hero-container {
       max-width: 1100px;
       margin: auto;
-      padding: 110px 30px 90px;
     }
 
     .hero h1 {
-      font-size: 52px;
-      margin-bottom: 10px;
-      color: #111827;
+      font-size: 54px;
+      margin-bottom: 12px;
+      color: #ffffff;
     }
 
     .hero h2 {
       font-size: 25px;
       font-weight: normal;
-      color: #4b5563;
+      color: #dbeafe;
       margin-bottom: 25px;
     }
 
     .hero p {
-      max-width: 700px;
+      max-width: 720px;
       font-size: 18px;
-      color: #6b7280;
+      color: #cbd5e1;
     }
 
     .portfolio-section {
       padding: 75px 30px;
     }
 
-    .portfolio-section.alt {
+    .powerbi-section {
+      background: #fffbea;
+    }
+
+    .analytics-section {
+      background: #eff6ff;
+    }
+
+    .statistics-section {
       background: #f8fafc;
     }
 
@@ -86,13 +104,13 @@
     .section-title {
       font-size: 34px;
       margin-bottom: 10px;
-      color: #111827;
+      color: #0f172a;
     }
 
     .section-description {
-      color: #6b7280;
+      color: #64748b;
       margin-bottom: 35px;
-      max-width: 750px;
+      max-width: 760px;
       font-size: 17px;
     }
 
@@ -104,43 +122,80 @@
 
     .project-card {
       background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
       padding: 30px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .project-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      transform: translateY(-5px);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    .powerbi-card {
+      border-top: 5px solid #f2c811;
+    }
+
+    .analytics-card {
+      border-top: 5px solid #2563eb;
+    }
+
+    .statistics-card {
+      border-top: 5px solid #475569;
     }
 
     .project-label {
       display: inline-block;
       font-size: 13px;
       font-weight: bold;
-      color: #2563eb;
-      background: #eff6ff;
-      padding: 5px 11px;
+      padding: 6px 12px;
       border-radius: 20px;
-      margin-bottom: 15px;
+      margin-bottom: 16px;
+    }
+
+    .powerbi-label {
+      background: #fff3a3;
+      color: #665500;
+    }
+
+    .analytics-label {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .statistics-label {
+      background: #e2e8f0;
+      color: #334155;
     }
 
     .project-card h3 {
       margin-bottom: 10px;
-      font-size: 21px;
-      color: #111827;
+      font-size: 22px;
+      color: #0f172a;
     }
 
     .project-card p {
-      color: #6b7280;
+      color: #64748b;
       margin-bottom: 20px;
     }
 
     .project-card a {
       text-decoration: none;
-      color: #2563eb;
       font-weight: bold;
+    }
+
+    .powerbi-card a {
+      color: #a16207;
+    }
+
+    .analytics-card a {
+      color: #2563eb;
+    }
+
+    .statistics-card a {
+      color: #475569;
     }
 
     .project-card a:hover {
@@ -148,17 +203,16 @@
     }
 
     .coming-soon {
-      color: #9ca3af;
+      color: #94a3b8;
       font-size: 14px;
       font-style: italic;
     }
 
     footer {
-      max-width: 1100px;
-      margin: auto;
-      padding: 50px 30px;
-      color: #6b7280;
+      background: #0f172a;
+      color: #cbd5e1;
       text-align: center;
+      padding: 45px 30px;
     }
 
     @media (max-width: 700px) {
@@ -167,10 +221,10 @@
       }
 
       .hero {
-        padding-top: 70px;
+        padding-top: 75px;
       }
 
-      nav {
+      .nav-container {
         flex-direction: column;
         gap: 15px;
       }
@@ -184,47 +238,47 @@
 
 <body>
 
-  <!-- NAVIGATION -->
-
   <nav>
+    <div class="nav-container">
 
-    <div class="name">
-      Wanangwa Msiska
+      <div class="name">
+        Wanangwa Msiska
+      </div>
+
+      <div>
+        <a href="#about">About</a>
+        <a href="#powerbi">Power BI</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#statistics">Statistics</a>
+        <a href="#contact">Contact</a>
+      </div>
+
     </div>
-
-    <div>
-      <a href="#about">About</a>
-      <a href="#powerbi">Power BI</a>
-      <a href="#analytics">Analytics</a>
-      <a href="#statistics">Statistics</a>
-      <a href="#contact">Contact</a>
-    </div>
-
   </nav>
 
 
-  <!-- ABOUT / HERO -->
-
   <section class="hero" id="about">
 
-    <h1>Wanangwa Msiska</h1>
+    <div class="hero-container">
 
-    <h2>
-      Data Analyst | Power BI Developer | Applied Statistics
-    </h2>
+      <h1>Wanangwa Msiska</h1>
 
-    <p>
-      Welcome to my data analytics portfolio. Here I showcase projects
-      involving data visualization, business intelligence, statistical
-      analysis, and data-driven decision making.
-    </p>
+      <h2>
+        Data Analyst | Power BI Developer | Applied Statistics
+      </h2>
+
+      <p>
+        Welcome to my data analytics portfolio. Here I showcase projects
+        involving data visualization, business intelligence, statistical
+        analysis, and data-driven decision making.
+      </p>
+
+    </div>
 
   </section>
 
 
-  <!-- POWER BI PROJECTS -->
-
-  <section class="portfolio-section alt" id="powerbi">
+  <section class="portfolio-section powerbi-section" id="powerbi">
 
     <div class="section-container">
 
@@ -237,15 +291,11 @@
         Power Query, data modeling, DAX, and interactive visualization.
       </p>
 
-
       <div class="project-grid">
 
+        <div class="project-card powerbi-card">
 
-        <!-- STUDENT PERFORMANCE -->
-
-        <div class="project-card">
-
-          <span class="project-label">
+          <span class="project-label powerbi-label">
             Power BI
           </span>
 
@@ -266,11 +316,9 @@
         </div>
 
 
-        <!-- FUTURE POWER BI PROJECT -->
+        <div class="project-card powerbi-card">
 
-        <div class="project-card">
-
-          <span class="project-label">
+          <span class="project-label powerbi-label">
             Power BI
           </span>
 
@@ -289,7 +337,6 @@
 
         </div>
 
-
       </div>
 
     </div>
@@ -297,9 +344,7 @@
   </section>
 
 
-  <!-- DATA ANALYTICS PROJECTS -->
-
-  <section class="portfolio-section" id="analytics">
+  <section class="portfolio-section analytics-section" id="analytics">
 
     <div class="section-container">
 
@@ -312,12 +357,11 @@
         visualization, SQL, Python, Excel, and analytical problem solving.
       </p>
 
-
       <div class="project-grid">
 
-        <div class="project-card">
+        <div class="project-card analytics-card">
 
-          <span class="project-label">
+          <span class="project-label analytics-label">
             Data Analytics
           </span>
 
@@ -344,9 +388,7 @@
   </section>
 
 
-  <!-- STATISTICAL ANALYSIS -->
-
-  <section class="portfolio-section alt" id="statistics">
+  <section class="portfolio-section statistics-section" id="statistics">
 
     <div class="section-container">
 
@@ -359,12 +401,11 @@
         forecasting, regression, experimental design, and quantitative analysis.
       </p>
 
-
       <div class="project-grid">
 
-        <div class="project-card">
+        <div class="project-card statistics-card">
 
-          <span class="project-label">
+          <span class="project-label statistics-label">
             Statistics
           </span>
 
@@ -373,8 +414,8 @@
           </h3>
 
           <p>
-            Statistical analysis and modeling projects will be
-            added to this section.
+            Statistical analysis and modeling projects will be added
+            to this section.
           </p>
 
           <span class="coming-soon">
@@ -389,8 +430,6 @@
 
   </section>
 
-
-  <!-- FOOTER -->
 
   <footer id="contact">
 
