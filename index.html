@@ -32,6 +32,7 @@
     nav .name {
       font-size: 20px;
       font-weight: bold;
+      color: #111827;
     }
 
     nav a {
@@ -82,6 +83,7 @@
     .projects h2 {
       font-size: 34px;
       margin-bottom: 35px;
+      color: #111827;
     }
 
     .project-grid {
@@ -95,11 +97,18 @@
       border: 1px solid #e5e7eb;
       border-radius: 10px;
       padding: 30px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
 
     .project-card h3 {
       margin-bottom: 10px;
       font-size: 21px;
+      color: #111827;
     }
 
     .project-card p {
@@ -113,6 +122,10 @@
       font-weight: bold;
     }
 
+    .project-card a:hover {
+      text-decoration: underline;
+    }
+
     footer {
       max-width: 1100px;
       margin: auto;
@@ -124,6 +137,10 @@
     @media (max-width: 600px) {
       .hero h1 {
         font-size: 38px;
+      }
+
+      .hero {
+        padding-top: 70px;
       }
 
       nav {
@@ -174,19 +191,30 @@
 
       <div class="project-grid">
 
+
+        <!-- PROJECT 1 -->
+
         <div class="project-card">
-          <h3>Power BI Project</h3>
+
+          <h3>Student Performance Analysis</h3>
 
           <p>
-            Interactive business intelligence dashboard developed using
-            Power BI, data modeling, Power Query, and DAX.
+            Power BI analysis of student academic performance,
+            grade patterns, and performance trends using interactive
+            visualizations and key performance indicators.
           </p>
 
-         <a href="Grades.pdf" target="_blank">View Project →</a>
+          <a href="student-performance.html">
+            View Project →
+          </a>
+
         </div>
 
 
+        <!-- PROJECT 2 -->
+
         <div class="project-card">
+
           <h3>Data Analytics Project</h3>
 
           <p>
@@ -194,11 +222,17 @@
             patterns, trends, and actionable insights.
           </p>
 
-          <a href="#">View Project →</a>
+          <a href="#">
+            View Project →
+          </a>
+
         </div>
 
 
+        <!-- PROJECT 3 -->
+
         <div class="project-card">
+
           <h3>Statistical Analysis</h3>
 
           <p>
@@ -206,8 +240,12 @@
             research and business questions.
           </p>
 
-          <a href="#">View Project →</a>
+          <a href="#">
+            View Project →
+          </a>
+
         </div>
+
 
       </div>
 
@@ -217,7 +255,9 @@
 
 
   <footer id="contact">
+
     <p>© 2026 Wanangwa Msiska</p>
+
   </footer>
 
 </body>
