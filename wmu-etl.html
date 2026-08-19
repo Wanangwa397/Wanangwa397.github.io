@@ -24,10 +24,6 @@
       line-height: 1.7;
     }
 
-    /* =========================
-       HEADER
-    ========================= */
-
     .topbar {
       background: #0f172a;
       padding: 22px 30px;
@@ -57,15 +53,10 @@
       color: #60a5fa;
     }
 
-
-    /* =========================
-       HERO
-    ========================= */
-
     .hero {
       background: linear-gradient(135deg, #0f172a, #1e3a5f);
       color: #ffffff;
-      padding: 80px 30px;
+      padding: 85px 30px;
     }
 
     .hero-container {
@@ -85,7 +76,7 @@
     }
 
     .hero h1 {
-      max-width: 900px;
+      max-width: 950px;
       font-size: 46px;
       line-height: 1.15;
       margin-bottom: 20px;
@@ -96,11 +87,6 @@
       color: #cbd5e1;
       font-size: 19px;
     }
-
-
-    /* =========================
-       TECHNOLOGY TAGS
-    ========================= */
 
     .tags {
       margin-top: 30px;
@@ -118,11 +104,6 @@
       font-size: 14px;
     }
 
-
-    /* =========================
-       MAIN CONTENT
-    ========================= */
-
     .container {
       max-width: 1100px;
       margin: auto;
@@ -130,7 +111,7 @@
     }
 
     .section {
-      margin-bottom: 65px;
+      margin-bottom: 70px;
     }
 
     .section h2 {
@@ -140,17 +121,12 @@
     }
 
     .section p {
-      max-width: 920px;
+      max-width: 930px;
       color: #475569;
       font-size: 17px;
     }
 
-
-    /* =========================
-       ARCHITECTURE IMAGE
-    ========================= */
-
-    .architecture-image {
+    .project-image {
       width: 100%;
       margin-top: 28px;
       border-radius: 14px;
@@ -159,10 +135,12 @@
       display: block;
     }
 
-
-    /* =========================
-       RESULT CARDS
-    ========================= */
+    .image-caption {
+      margin-top: 10px;
+      color: #64748b;
+      font-size: 14px;
+      font-style: italic;
+    }
 
     .metrics-grid {
       display: grid;
@@ -190,11 +168,6 @@
       font-size: 15px;
     }
 
-
-    /* =========================
-       PROCESS STEPS
-    ========================= */
-
     .process-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -221,11 +194,6 @@
       color: #64748b;
     }
 
-
-    /* =========================
-       FEATURE LIST
-    ========================= */
-
     .feature-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -251,30 +219,23 @@
       color: #64748b;
     }
 
-
-    /* =========================
-       OPTIONAL PROJECT IMAGES
-    ========================= */
-
-    .project-image {
-      width: 100%;
-      margin-top: 25px;
-      border-radius: 12px;
+    .visual-block {
+      background: #f8fafc;
       border: 1px solid #e2e8f0;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+      border-radius: 16px;
+      padding: 28px;
+      margin-top: 30px;
     }
 
-    .image-caption {
-      margin-top: 8px;
-      color: #64748b;
-      font-size: 14px;
-      font-style: italic;
+    .visual-block h3 {
+      color: #0f172a;
+      font-size: 22px;
+      margin-bottom: 8px;
     }
 
-
-    /* =========================
-       BUTTONS
-    ========================= */
+    .visual-block p {
+      font-size: 15px;
+    }
 
     .button-row {
       display: flex;
@@ -310,11 +271,6 @@
       background: #e2e8f0;
     }
 
-
-    /* =========================
-       FOOTER
-    ========================= */
-
     footer {
       background: #0f172a;
       color: #94a3b8;
@@ -322,13 +278,7 @@
       padding: 35px 20px;
     }
 
-
-    /* =========================
-       MOBILE
-    ========================= */
-
     @media (max-width: 700px) {
-
       .hero h1 {
         font-size: 34px;
       }
@@ -343,18 +293,12 @@
         align-items: flex-start;
       }
     }
-
   </style>
 </head>
 
-
 <body>
 
-
-  <!-- HEADER -->
-
   <div class="topbar">
-
     <div class="topbar-container">
 
       <div class="portfolio-name">
@@ -366,12 +310,8 @@
       </a>
 
     </div>
-
   </div>
 
-
-
-  <!-- HERO -->
 
   <section class="hero">
 
@@ -387,8 +327,8 @@
       </h1>
 
       <p>
-        An end-to-end SSIS and SQL Server data engineering project designed
-        to transform raw higher-education student data into a validated,
+        An end-to-end SSIS and SQL Server data engineering project that
+        transforms raw higher-education student data into a validated,
         auditable, and reporting-ready dimensional data warehouse.
       </p>
 
@@ -400,6 +340,7 @@
         <span class="tag">Data Warehouse</span>
         <span class="tag">Star Schema</span>
         <span class="tag">Data Quality</span>
+        <span class="tag">Audit Reporting</span>
         <span class="tag">Power BI Ready</span>
       </div>
 
@@ -408,127 +349,84 @@
   </section>
 
 
-
   <main class="container">
 
 
-    <!-- PROJECT OVERVIEW -->
-
     <section class="section">
 
-      <h2>
-        Project Overview
-      </h2>
+      <h2>Project Overview</h2>
 
       <p>
         Western Midlands University (WMU) is a fictional higher-education
         institution created for this project. The solution integrates student
         information from multiple CSV source files into a structured SQL Server
-        reporting environment using SSIS.
+        reporting environment using SQL Server Integration Services.
       </p>
 
       <p style="margin-top:15px;">
-        The project implements staging, reference validation, exception
-        handling, audit reporting, and a dimensional warehouse structure
-        designed to support reliable institutional analytics and Power BI
-        reporting.
+        The project implements a full-refresh ETL process with staging tables,
+        reference validation, exception handling, audit reporting, and a
+        dimensional warehouse designed to support institutional analytics and
+        Power BI reporting.
       </p>
 
     </section>
 
 
-
-    <!-- ARCHITECTURE -->
-
     <section class="section">
 
-      <h2>
-        ETL Architecture
-      </h2>
+      <h2>Solution Architecture</h2>
 
       <p>
-        The solution follows a controlled ETL process where source data first
-        enters staging tables, passes through business-rule validation, and is
-        either redirected to exception tables or loaded into the reporting
-        warehouse. Audit tables provide visibility into validation outcomes
-        and ETL execution.
+        The architecture separates raw ingestion, business-rule validation,
+        rejected records, clean warehouse loading, and audit reporting into a
+        controlled end-to-end process.
       </p>
 
       <img
         src="wmu-etl-thumbnail.png"
-        alt="WMU Student Information ETL and Data Warehouse architecture"
-        class="architecture-image"
+        alt="WMU ETL and Data Warehouse solution architecture"
+        class="project-image"
       >
+
+      <div class="image-caption">
+        High-level architecture showing source files, staging, validation,
+        exception handling, clean data loading, warehouse design, and audit reporting.
+      </div>
 
     </section>
 
 
-
-    <!-- ETL RESULTS -->
-
     <section class="section">
 
-      <h2>
-        Final ETL Results
-      </h2>
+      <h2>Final ETL Results</h2>
 
       <p>
-        The completed ETL process successfully processed thousands of student
-        information records while separating records that failed data-quality
-        validation from records approved for warehouse loading.
+        The completed pipeline processed thousands of student-information
+        records while separating records that failed validation from records
+        approved for warehouse loading.
       </p>
 
       <div class="metrics-grid">
 
         <div class="metric-card">
-
-          <div class="metric-number">
-            5,887
-          </div>
-
-          <div class="metric-label">
-            Total Rows Processed
-          </div>
-
+          <div class="metric-number">5,887</div>
+          <div class="metric-label">Total Rows Processed</div>
         </div>
 
-
         <div class="metric-card">
-
-          <div class="metric-number">
-            5,179
-          </div>
-
-          <div class="metric-label">
-            Valid Rows
-          </div>
-
+          <div class="metric-number">5,179</div>
+          <div class="metric-label">Valid Rows</div>
         </div>
 
-
         <div class="metric-card">
-
-          <div class="metric-number">
-            723
-          </div>
-
-          <div class="metric-label">
-            Invalid Rows Identified
-          </div>
-
+          <div class="metric-number">723</div>
+          <div class="metric-label">Invalid Rows Identified</div>
         </div>
 
-
         <div class="metric-card">
-
-          <div class="metric-number">
-            SUCCESS
-          </div>
-
-          <div class="metric-label">
-            Final ETL Status
-          </div>
-
+          <div class="metric-number">SUCCESS</div>
+          <div class="metric-label">ETL Run Status</div>
         </div>
 
       </div>
@@ -536,388 +434,357 @@
     </section>
 
 
-
-    <!-- BUSINESS PROBLEM -->
-
     <section class="section">
 
-      <h2>
-        Business Problem
-      </h2>
+      <h2>Business Problem</h2>
 
       <p>
-        Higher-education institutions often manage information across separate
-        admissions, enrollment, academic, financial-aid, and student-engagement
-        systems. Without a centralized and validated reporting environment,
-        institutional reporting can suffer from duplicate records, invalid
-        values, inconsistent definitions, weak audit visibility, and unreliable
-        decision-making.
+        Higher-education institutions often manage admissions, enrollment,
+        academic performance, financial aid, and student engagement in separate
+        operational systems. Reporting directly from disconnected sources can
+        result in duplicate records, invalid values, inconsistent reporting
+        definitions, weak audit visibility, and unreliable decision-making.
       </p>
 
       <p style="margin-top:15px;">
-        This project addresses that challenge by creating a centralized ETL
-        pipeline and data warehouse that produces clean, validated, and
-        reporting-ready student information.
+        This project addresses that problem by building a centralized,
+        validated data pipeline and warehouse that provides a trusted source
+        for institutional reporting.
       </p>
 
     </section>
 
 
-
-    <!-- ETL PROCESS -->
-
     <section class="section">
 
-      <h2>
-        ETL Process
-      </h2>
+      <h2>ETL Process</h2>
 
       <div class="process-grid">
 
-
         <div class="process-card">
-
-          <h3>
-            1. Source & Staging
-          </h3>
-
+          <h3>1. Source Files</h3>
           <p>
-            Student data from CSV source files is extracted and loaded into
-            SQL Server staging tables.
+            StudentMaster, Enrollment, Academic Performance, Financial Aid,
+            and Attendance data originate from CSV source files.
           </p>
-
         </div>
 
-
         <div class="process-card">
-
-          <h3>
-            2. Validation
-          </h3>
-
+          <h3>2. Staging</h3>
           <p>
-            SQL business rules and reference tables validate student,
-            enrollment, academic, financial-aid, and attendance records.
+            Source records are loaded into SQL Server staging tables before
+            validation and warehouse processing.
           </p>
-
         </div>
 
-
         <div class="process-card">
-
-          <h3>
-            3. Exception Handling
-          </h3>
-
+          <h3>3. Validation</h3>
           <p>
-            Records failing validation are redirected to dedicated exception
-            tables instead of entering the warehouse.
+            Business rules and reference tables validate identifiers,
+            categorical values, ranges, relationships, and duplicates.
           </p>
-
         </div>
 
-
         <div class="process-card">
-
-          <h3>
-            4. Warehouse Loading
-          </h3>
-
+          <h3>4. Exceptions</h3>
           <p>
-            Clean validated records are loaded into dimensional and fact
-            tables using a reporting-ready star-schema design.
+            Invalid records are redirected to dedicated exception tables rather
+            than being loaded into the warehouse.
           </p>
-
         </div>
 
-
         <div class="process-card">
-
-          <h3>
-            5. Audit Reporting
-          </h3>
-
+          <h3>5. Warehouse</h3>
           <p>
-            Validation summaries and ETL execution results are logged for
-            monitoring, reconciliation, and audit visibility.
+            Clean records are loaded into the student dimension and reporting
+            fact tables.
           </p>
-
         </div>
 
-
         <div class="process-card">
-
-          <h3>
-            6. Reporting
-          </h3>
-
+          <h3>6. Audit</h3>
           <p>
-            The resulting warehouse supports Power BI reporting for
-            institutional analytics and decision-making.
+            Validation summaries and ETL run results provide execution tracking
+            and reconciliation.
           </p>
-
         </div>
-
 
       </div>
 
     </section>
 
 
+    <section class="section">
 
-    <!-- DATA QUALITY -->
+      <h2>SSIS Implementation</h2>
+
+      <p>
+        The project was implemented as an SSIS control flow that coordinates
+        staging loads, validation, exception handling, warehouse loading,
+        validation summaries, and ETL audit logging.
+      </p>
+
+      <div class="visual-block">
+
+        <h3>SSIS Control Flow</h3>
+
+        <p>
+          The control flow demonstrates the actual orchestration of source
+          loading, validation steps, exception processing, warehouse loads,
+          and final audit logging.
+        </p>
+
+        <img
+          src="Final_Control_Flow.jpg"
+          alt="WMU SSIS final control flow"
+          class="project-image"
+        >
+
+      </div>
+
+    </section>
+
 
     <section class="section">
 
-      <h2>
-        Data Quality & Exception Handling
-      </h2>
+      <h2>Data Quality & Validation</h2>
 
       <p>
-        Data-quality controls were built directly into the ETL process.
-        Validation rules identify issues including duplicate identifiers,
-        invalid categories, incorrect GPA values, invalid credit-hour ranges,
-        orphan student records, invalid attendance values, and other
-        business-rule violations.
+        Validation rules were built into the ETL process to prevent bad data
+        from entering the reporting warehouse. Examples include duplicate
+        identifier detection, invalid student status values, GPA-range checks,
+        credit-hour validation, orphan student IDs, attendance checks, and
+        reference-value validation.
       </p>
 
       <div class="feature-grid">
 
-
         <div class="feature-card">
-
-          <h3>
-            Controlled Validation
-          </h3>
-
+          <h3>Business Rules</h3>
           <p>
-            Reference tables and SQL rules enforce valid values before data
-            enters the reporting warehouse.
+            Controlled SQL rules validate expected values and relationships
+            before warehouse loading.
           </p>
-
         </div>
 
-
         <div class="feature-card">
-
-          <h3>
-            Exception Tables
-          </h3>
-
+          <h3>Exception Handling</h3>
           <p>
-            Invalid records are isolated with issue types and issue
-            descriptions, making them available for review and correction.
+            Failed records are redirected into exception tables containing
+            issue types, descriptions, and source-record details.
           </p>
-
         </div>
 
-
         <div class="feature-card">
-
-          <h3>
-            Audit Transparency
-          </h3>
-
+          <h3>Validation Reporting</h3>
           <p>
-            Validation and ETL execution tables provide visibility into
-            processed, valid, and invalid records.
+            Validation results are summarized so that data-quality issues can
+            be monitored and reconciled.
           </p>
-
         </div>
 
+      </div>
+
+      <div class="visual-block">
+
+        <h3>Validation Summary</h3>
+
+        <p>
+          The validation summary provides visibility into the types and volume
+          of issues discovered during ETL processing.
+        </p>
+
+        <img
+          src="Validation_Summary.jpg"
+          alt="WMU ETL validation summary"
+          class="project-image"
+        >
 
       </div>
 
     </section>
 
 
-
-    <!-- WAREHOUSE DESIGN -->
-
     <section class="section">
 
-      <h2>
-        Data Warehouse Design
-      </h2>
+      <h2>Data Warehouse Design</h2>
 
       <p>
-        The final reporting environment uses a dimensional warehouse centered
-        around a student dimension. Fact tables capture enrollment,
-        academic-performance, financial-aid, and student-attendance activity.
-        Surrogate student keys support consistent relationships between the
-        dimension and fact tables.
+        The warehouse follows a dimensional design centered on
+        <strong>DimStudent</strong>. Fact tables capture enrollment,
+        academic performance, financial aid, and student attendance activity.
+        A surrogate StudentKey supports consistent relationships between
+        the student dimension and each fact table.
       </p>
 
       <div class="feature-grid">
 
-
         <div class="feature-card">
-
-          <h3>
-            DimStudent
-          </h3>
-
+          <h3>DimStudent</h3>
           <p>
-            Stores student profile information including demographics,
-            program, department, level, admission date, and status.
+            Stores student demographics, program, department, level,
+            admission date, and student status.
           </p>
-
         </div>
 
-
         <div class="feature-card">
-
-          <h3>
-            FactEnrollment
-          </h3>
-
+          <h3>FactEnrollment</h3>
           <p>
-            Stores enrollment activity including term, enrollment status,
-            credit hours, residency status, and campus.
+            Stores term, enrollment status, credit hours, residency status,
+            and campus activity.
           </p>
-
         </div>
 
-
         <div class="feature-card">
-
-          <h3>
-            FactAcademicPerformance
-          </h3>
-
+          <h3>FactAcademicPerformance</h3>
           <p>
-            Stores grades, credit hours, term GPA, cumulative GPA, and
-            academic-standing information.
+            Stores grades, attempted and earned credits, GPA measures,
+            and academic standing.
           </p>
-
         </div>
 
-
         <div class="feature-card">
-
-          <h3>
-            FactFinancialAid
-          </h3>
-
+          <h3>FactFinancialAid</h3>
           <p>
-            Captures aid type, amount, FAFSA status, and financial-aid status.
+            Stores financial aid type, amount, FAFSA status,
+            and aid status.
           </p>
-
         </div>
 
-
         <div class="feature-card">
-
-          <h3>
-            FactStudentAttendance
-          </h3>
-
+          <h3>FactStudentAttendance</h3>
           <p>
-            Captures attendance, LMS activity, advisor meetings, and student
-            engagement-risk measures.
+            Stores attendance, LMS activity, advisor meetings,
+            and engagement-risk measures.
           </p>
-
         </div>
 
+      </div>
+
+      <div class="visual-block">
+
+        <h3>Warehouse Relationship Diagram</h3>
+
+        <p>
+          The relationship diagram shows the reporting-ready dimensional
+          model linking the student dimension to the project fact tables.
+        </p>
+
+        <img
+          src="Warehouse_Relationship_Diagram.png"
+          alt="WMU warehouse relationship diagram"
+          class="project-image"
+        >
 
       </div>
 
     </section>
 
 
+    <section class="section">
 
-    <!-- BUSINESS VALUE -->
+      <h2>Audit Reporting</h2>
+
+      <p>
+        The solution includes both a validation summary and an ETL run audit.
+        Audit records track processed rows, valid rows, invalid rows, run status,
+        and execution history so that reporting outcomes can be reconciled with
+        data-quality results.
+      </p>
+
+      <div class="visual-block">
+
+        <h3>ETL Run Audit</h3>
+
+        <p>
+          The ETL run audit provides final execution metrics and confirms
+          successful completion of the pipeline.
+        </p>
+
+        <img
+          src="audit_ETLRun.png"
+          alt="WMU ETL run audit results"
+          class="project-image"
+        >
+
+      </div>
+
+    </section>
+
 
     <section class="section">
 
-      <h2>
-        Business Value
-      </h2>
+      <h2>Business Value</h2>
 
       <p>
-        The solution creates a trusted reporting foundation for institutional
-        analytics by centralizing and validating student information before it
-        reaches reporting tools.
+        The completed solution creates a trusted reporting foundation for
+        institutional analytics by ensuring that only validated student data
+        enters the warehouse.
       </p>
 
       <div class="feature-grid">
 
-
         <div class="feature-card">
-
-          <h3>
-            Enrollment Reporting
-          </h3>
-
+          <h3>Enrollment Reporting</h3>
           <p>
-            Supports consistent analysis of enrollment activity and student
-            status.
+            Supports consistent analysis of enrollment activity,
+            student status, residency, and campus.
           </p>
-
         </div>
 
-
         <div class="feature-card">
-
-          <h3>
-            Academic Performance
-          </h3>
-
+          <h3>Academic Performance</h3>
           <p>
-            Provides structured data for GPA, grades, academic standing, and
-            course-performance analysis.
+            Supports GPA, grade, credit-hour, and academic-standing reporting.
           </p>
-
         </div>
 
-
         <div class="feature-card">
-
-          <h3>
-            Financial Aid Monitoring
-          </h3>
-
+          <h3>Financial Aid</h3>
           <p>
-            Supports reporting on aid amounts, FAFSA completion, and aid
-            status.
+            Supports monitoring of aid types, amounts, FAFSA completion,
+            and aid status.
           </p>
-
         </div>
 
-
         <div class="feature-card">
-
-          <h3>
-            Student Engagement
-          </h3>
-
+          <h3>Student Engagement</h3>
           <p>
-            Enables attendance and engagement-risk analysis using warehouse
-            activity data.
+            Supports attendance, LMS activity, advisor interaction,
+            and engagement-risk analysis.
           </p>
-
         </div>
 
+        <div class="feature-card">
+          <h3>Audit Visibility</h3>
+          <p>
+            Provides traceability between data-quality results and final
+            ETL execution outcomes.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3>Power BI Ready</h3>
+          <p>
+            Produces clean warehouse tables designed for downstream
+            business intelligence and institutional reporting.
+          </p>
+        </div>
 
       </div>
 
     </section>
 
 
-
-    <!-- SOURCE CODE -->
-
     <section class="section">
 
-      <h2>
-        Project Resources
-      </h2>
+      <h2>Project Resources</h2>
 
       <p>
-        The portfolio page provides the project overview and results. The full
-        technical repository is also available for reviewers who want to
-        inspect the SQL scripts, SSIS implementation, source files, screenshots,
-        and detailed documentation.
+        This page presents the project as a complete technical case study.
+        The original GitHub repository remains available for reviewers who
+        want to inspect the SQL scripts, source files, screenshots, and
+        implementation documentation.
       </p>
 
       <div class="button-row">
@@ -947,13 +814,10 @@
 
 
   <footer>
-
     <p>
       © 2026 Wanangwa Msiska
     </p>
-
   </footer>
-
 
 </body>
 </html>
