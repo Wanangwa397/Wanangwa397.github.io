@@ -70,20 +70,30 @@
       color: #6b7280;
     }
 
-    .projects {
-      background: #f8fafc;
-      padding: 80px 30px;
+    .portfolio-section {
+      padding: 75px 30px;
     }
 
-    .projects-container {
+    .portfolio-section.alt {
+      background: #f8fafc;
+    }
+
+    .section-container {
       max-width: 1100px;
       margin: auto;
     }
 
-    .projects h2 {
+    .section-title {
       font-size: 34px;
-      margin-bottom: 35px;
+      margin-bottom: 10px;
       color: #111827;
+    }
+
+    .section-description {
+      color: #6b7280;
+      margin-bottom: 35px;
+      max-width: 750px;
+      font-size: 17px;
     }
 
     .project-grid {
@@ -95,7 +105,7 @@
     .project-card {
       background: white;
       border: 1px solid #e5e7eb;
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 30px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -103,6 +113,17 @@
     .project-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .project-label {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: bold;
+      color: #2563eb;
+      background: #eff6ff;
+      padding: 5px 11px;
+      border-radius: 20px;
+      margin-bottom: 15px;
     }
 
     .project-card h3 {
@@ -126,6 +147,12 @@
       text-decoration: underline;
     }
 
+    .coming-soon {
+      color: #9ca3af;
+      font-size: 14px;
+      font-style: italic;
+    }
+
     footer {
       max-width: 1100px;
       margin: auto;
@@ -134,7 +161,7 @@
       text-align: center;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
       .hero h1 {
         font-size: 38px;
       }
@@ -149,7 +176,7 @@
       }
 
       nav a {
-        margin: 0 10px;
+        margin: 0 8px;
       }
     }
   </style>
@@ -157,22 +184,34 @@
 
 <body>
 
+  <!-- NAVIGATION -->
+
   <nav>
-    <div class="name">Wanangwa Msiska</div>
+
+    <div class="name">
+      Wanangwa Msiska
+    </div>
 
     <div>
       <a href="#about">About</a>
-      <a href="#projects">Projects</a>
+      <a href="#powerbi">Power BI</a>
+      <a href="#analytics">Analytics</a>
+      <a href="#statistics">Statistics</a>
       <a href="#contact">Contact</a>
     </div>
+
   </nav>
 
+
+  <!-- ABOUT / HERO -->
 
   <section class="hero" id="about">
 
     <h1>Wanangwa Msiska</h1>
 
-    <h2>Data Analyst | Power BI Developer | Applied Statistics</h2>
+    <h2>
+      Data Analyst | Power BI Developer | Applied Statistics
+    </h2>
 
     <p>
       Welcome to my data analytics portfolio. Here I showcase projects
@@ -183,25 +222,41 @@
   </section>
 
 
-  <section class="projects" id="projects">
+  <!-- POWER BI PROJECTS -->
 
-    <div class="projects-container">
+  <section class="portfolio-section alt" id="powerbi">
 
-      <h2>Featured Projects</h2>
+    <div class="section-container">
+
+      <h2 class="section-title">
+        Power BI Projects
+      </h2>
+
+      <p class="section-description">
+        Business intelligence dashboards developed using Power BI,
+        Power Query, data modeling, DAX, and interactive visualization.
+      </p>
+
 
       <div class="project-grid">
 
 
-        <!-- PROJECT 1 -->
+        <!-- STUDENT PERFORMANCE -->
 
         <div class="project-card">
 
-          <h3>Student Performance Analysis</h3>
+          <span class="project-label">
+            Power BI
+          </span>
+
+          <h3>
+            Student Performance Analysis
+          </h3>
 
           <p>
-            Power BI analysis of student academic performance,
-            grade patterns, and performance trends using interactive
-            visualizations and key performance indicators.
+            Analysis of student academic performance, grade patterns,
+            and performance trends using interactive visualizations
+            and key performance indicators.
           </p>
 
           <a href="student-performance.html">
@@ -211,38 +266,26 @@
         </div>
 
 
-        <!-- PROJECT 2 -->
+        <!-- FUTURE POWER BI PROJECT -->
 
         <div class="project-card">
 
-          <h3>Data Analytics Project</h3>
+          <span class="project-label">
+            Power BI
+          </span>
+
+          <h3>
+            More Projects Coming Soon
+          </h3>
 
           <p>
-            Exploratory analysis and visualization of data to identify
-            patterns, trends, and actionable insights.
+            Additional Power BI dashboards and business intelligence
+            projects will be added to this portfolio.
           </p>
 
-          <a href="#">
-            View Project →
-          </a>
-
-        </div>
-
-
-        <!-- PROJECT 3 -->
-
-        <div class="project-card">
-
-          <h3>Statistical Analysis</h3>
-
-          <p>
-            Statistical modeling and analysis used to answer real-world
-            research and business questions.
-          </p>
-
-          <a href="#">
-            View Project →
-          </a>
+          <span class="coming-soon">
+            Coming soon
+          </span>
 
         </div>
 
@@ -254,9 +297,106 @@
   </section>
 
 
+  <!-- DATA ANALYTICS PROJECTS -->
+
+  <section class="portfolio-section" id="analytics">
+
+    <div class="section-container">
+
+      <h2 class="section-title">
+        Data Analytics Projects
+      </h2>
+
+      <p class="section-description">
+        Projects involving data preparation, exploratory analysis,
+        visualization, SQL, Python, Excel, and analytical problem solving.
+      </p>
+
+
+      <div class="project-grid">
+
+        <div class="project-card">
+
+          <span class="project-label">
+            Data Analytics
+          </span>
+
+          <h3>
+            More Projects Coming Soon
+          </h3>
+
+          <p>
+            Additional data analytics projects will be added here,
+            including projects involving SQL, Python, Excel,
+            and data visualization.
+          </p>
+
+          <span class="coming-soon">
+            Coming soon
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- STATISTICAL ANALYSIS -->
+
+  <section class="portfolio-section alt" id="statistics">
+
+    <div class="section-container">
+
+      <h2 class="section-title">
+        Statistical Analysis
+      </h2>
+
+      <p class="section-description">
+        Applied statistical projects involving modeling, inference,
+        forecasting, regression, experimental design, and quantitative analysis.
+      </p>
+
+
+      <div class="project-grid">
+
+        <div class="project-card">
+
+          <span class="project-label">
+            Statistics
+          </span>
+
+          <h3>
+            More Projects Coming Soon
+          </h3>
+
+          <p>
+            Statistical analysis and modeling projects will be
+            added to this section.
+          </p>
+
+          <span class="coming-soon">
+            Coming soon
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
   <footer id="contact">
 
-    <p>© 2026 Wanangwa Msiska</p>
+    <p>
+      © 2026 Wanangwa Msiska
+    </p>
 
   </footer>
 
