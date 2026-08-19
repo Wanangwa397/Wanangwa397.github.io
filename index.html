@@ -24,9 +24,7 @@
       line-height: 1.6;
     }
 
-    /* =========================
-       NAVIGATION
-    ========================= */
+    /* NAVIGATION */
 
     nav {
       background: #0f172a;
@@ -58,10 +56,7 @@
       color: #f2c811;
     }
 
-
-    /* =========================
-       HERO / ABOUT
-    ========================= */
+    /* HERO */
 
     .hero {
       background: linear-gradient(135deg, #0f172a, #1e3a5f);
@@ -93,10 +88,7 @@
       color: #cbd5e1;
     }
 
-
-    /* =========================
-       PORTFOLIO SECTIONS
-    ========================= */
+    /* PORTFOLIO SECTIONS */
 
     .portfolio-section {
       padding: 75px 30px;
@@ -132,10 +124,7 @@
       font-size: 17px;
     }
 
-
-    /* =========================
-       PROJECT GRID
-    ========================= */
+    /* PROJECT GRID */
 
     .project-grid {
       display: grid;
@@ -174,10 +163,7 @@
       padding: 28px 30px 30px;
     }
 
-
-    /* =========================
-       CARD COLORS
-    ========================= */
+    /* CARD COLORS */
 
     .powerbi-card {
       border-top: 5px solid #f2c811;
@@ -191,10 +177,7 @@
       border-top: 5px solid #475569;
     }
 
-
-    /* =========================
-       PROJECT LABELS
-    ========================= */
+    /* PROJECT LABELS */
 
     .project-label {
       display: inline-block;
@@ -220,10 +203,7 @@
       color: #334155;
     }
 
-
-    /* =========================
-       PROJECT CONTENT
-    ========================= */
+    /* PROJECT CONTENT */
 
     .project-card h3 {
       margin-bottom: 10px;
@@ -263,10 +243,7 @@
       font-style: italic;
     }
 
-
-    /* =========================
-       CONTACT SECTION
-    ========================= */
+    /* CONTACT */
 
     .contact-section {
       background: linear-gradient(135deg, #0f172a, #1e3a5f);
@@ -302,8 +279,7 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 12px;
       padding: 24px;
-      transition: transform 0.2s ease,
-                  background 0.2s ease;
+      transition: transform 0.2s ease, background 0.2s ease;
     }
 
     .contact-card:hover {
@@ -334,10 +310,7 @@
       color: #f2c811;
     }
 
-
-    /* =========================
-       FOOTER
-    ========================= */
+    /* FOOTER */
 
     footer {
       background: #080f1f;
@@ -346,10 +319,7 @@
       padding: 30px;
     }
 
-
-    /* =========================
-       MOBILE
-    ========================= */
+    /* MOBILE */
 
     @media (max-width: 700px) {
 
@@ -386,13 +356,9 @@
   </style>
 </head>
 
-
 <body>
 
-
-  <!-- =========================
-       NAVIGATION
-  ========================== -->
+  <!-- NAVIGATION -->
 
   <nav>
 
@@ -415,10 +381,7 @@
   </nav>
 
 
-
-  <!-- =========================
-       HERO / ABOUT
-  ========================== -->
+  <!-- HERO -->
 
   <section class="hero" id="about">
 
@@ -443,15 +406,9 @@
   </section>
 
 
+  <!-- POWER BI PROJECTS -->
 
-  <!-- =========================
-       POWER BI PROJECTS
-  ========================== -->
-
-  <section
-    class="portfolio-section powerbi-section"
-    id="powerbi"
-  >
+  <section class="portfolio-section powerbi-section" id="powerbi">
 
     <div class="section-container">
 
@@ -472,15 +429,15 @@
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="student-performance.html"
-          >
+          <a class="project-thumbnail-link"
+             href="student-performance.html">
+
             <img
               src="student-performance-thumbnail.png"
               alt="Student Performance Analysis Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -508,20 +465,19 @@
         </div>
 
 
-
         <!-- SALES PERFORMANCE -->
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="sales-performance.html"
-          >
+          <a class="project-thumbnail-link"
+             href="sales-performance.html">
+
             <img
               src="sales-performance-thumbnail.png"
               alt="Sales Performance Analysis Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -549,20 +505,19 @@
         </div>
 
 
-
         <!-- LOGISTICS OPERATIONS -->
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="logistics.html"
-          >
+          <a class="project-thumbnail-link"
+             href="logistics.html">
+
             <img
               src="logistics-thumbnail.png"
               alt="Logistics Operations Analysis Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -590,6 +545,46 @@
         </div>
 
 
+        <!-- HOSPITAL PATIENT METRICS -->
+
+        <div class="project-card powerbi-card">
+
+          <a class="project-thumbnail-link"
+             href="hospital-patient-metrics.html">
+
+            <img
+              src="hospital-patient-metrics-thumbnail.png"
+              alt="Hospital Patient Metrics Power BI dashboard"
+              class="project-thumbnail"
+            >
+
+          </a>
+
+          <div class="project-content">
+
+            <span class="project-label powerbi-label">
+              Power BI
+            </span>
+
+            <h3>
+              Hospital Patient Metrics
+            </h3>
+
+            <p>
+              Healthcare analytics dashboard examining patient volume,
+              admission performance, waiting times, satisfaction,
+              demographics, and department referral patterns.
+            </p>
+
+            <a href="hospital-patient-metrics.html">
+              View Project →
+            </a>
+
+          </div>
+
+        </div>
+
+
       </div>
 
     </div>
@@ -597,15 +592,9 @@
   </section>
 
 
+  <!-- DATA ANALYTICS -->
 
-  <!-- =========================
-       DATA ANALYTICS PROJECTS
-  ========================== -->
-
-  <section
-    class="portfolio-section analytics-section"
-    id="analytics"
-  >
+  <section class="portfolio-section analytics-section" id="analytics">
 
     <div class="section-container">
 
@@ -617,7 +606,6 @@
         Projects involving data preparation, exploratory analysis,
         visualization, SQL, Python, Excel, and analytical problem solving.
       </p>
-
 
       <div class="project-grid">
 
@@ -654,15 +642,9 @@
   </section>
 
 
+  <!-- STATISTICAL ANALYSIS -->
 
-  <!-- =========================
-       STATISTICAL ANALYSIS
-  ========================== -->
-
-  <section
-    class="portfolio-section statistics-section"
-    id="statistics"
-  >
+  <section class="portfolio-section statistics-section" id="statistics">
 
     <div class="section-container">
 
@@ -674,7 +656,6 @@
         Applied statistical projects involving modeling, inference,
         forecasting, regression, experimental design, and quantitative analysis.
       </p>
-
 
       <div class="project-grid">
 
@@ -710,10 +691,7 @@
   </section>
 
 
-
-  <!-- =========================
-       CONTACT
-  ========================== -->
+  <!-- CONTACT -->
 
   <section class="contact-section" id="contact">
 
@@ -733,13 +711,9 @@
       <div class="contact-grid">
 
 
-        <!-- EMAIL -->
-
         <div class="contact-card">
 
-          <h3>
-            Email
-          </h3>
+          <h3>Email</h3>
 
           <a href="mailto:msiskawanangwa7@gmail.com">
             msiskawanangwa7@gmail.com
@@ -748,13 +722,9 @@
         </div>
 
 
-        <!-- LINKEDIN -->
-
         <div class="contact-card">
 
-          <h3>
-            LinkedIn
-          </h3>
+          <h3>LinkedIn</h3>
 
           <a
             href="https://www.linkedin.com/in/wanangwamsiska"
@@ -767,13 +737,9 @@
         </div>
 
 
-        <!-- GITHUB -->
-
         <div class="contact-card">
 
-          <h3>
-            GitHub
-          </h3>
+          <h3>GitHub</h3>
 
           <a
             href="https://github.com/Wanangwa397"
@@ -786,13 +752,9 @@
         </div>
 
 
-        <!-- LOCATION -->
-
         <div class="contact-card">
 
-          <h3>
-            Location
-          </h3>
+          <h3>Location</h3>
 
           <p>
             Bowling Green, Ohio
@@ -808,10 +770,7 @@
   </section>
 
 
-
-  <!-- =========================
-       FOOTER
-  ========================== -->
+  <!-- FOOTER -->
 
   <footer>
 
@@ -820,7 +779,6 @@
     </p>
 
   </footer>
-
 
 </body>
 </html>
