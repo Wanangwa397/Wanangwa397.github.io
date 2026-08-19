@@ -24,10 +24,6 @@
       line-height: 1.6;
     }
 
-    /* =========================
-       NAVIGATION
-    ========================= */
-
     nav {
       background: #0f172a;
       padding: 22px 30px;
@@ -58,11 +54,6 @@
       color: #f2c811;
     }
 
-
-    /* =========================
-       HERO / ABOUT
-    ========================= */
-
     .hero {
       background: linear-gradient(135deg, #0f172a, #1e3a5f);
       color: white;
@@ -92,11 +83,6 @@
       font-size: 18px;
       color: #cbd5e1;
     }
-
-
-    /* =========================
-       PORTFOLIO SECTIONS
-    ========================= */
 
     .portfolio-section {
       padding: 75px 30px;
@@ -132,11 +118,6 @@
       font-size: 17px;
     }
 
-
-    /* =========================
-       PROJECT GRID
-    ========================= */
-
     .project-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -147,7 +128,7 @@
       background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 14px;
-      padding: 30px;
+      overflow: hidden;
       box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -157,10 +138,22 @@
       box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
     }
 
+    .project-thumbnail-link {
+      display: block;
+    }
 
-    /* =========================
-       CARD COLORS
-    ========================= */
+    .project-thumbnail {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .project-content {
+      padding: 28px 30px 30px;
+    }
 
     .powerbi-card {
       border-top: 5px solid #f2c811;
@@ -173,11 +166,6 @@
     .statistics-card {
       border-top: 5px solid #475569;
     }
-
-
-    /* =========================
-       PROJECT LABELS
-    ========================= */
 
     .project-label {
       display: inline-block;
@@ -202,11 +190,6 @@
       background: #e2e8f0;
       color: #334155;
     }
-
-
-    /* =========================
-       PROJECT CONTENT
-    ========================= */
 
     .project-card h3 {
       margin-bottom: 10px;
@@ -246,11 +229,6 @@
       font-style: italic;
     }
 
-
-    /* =========================
-       FOOTER
-    ========================= */
-
     footer {
       background: #0f172a;
       color: #cbd5e1;
@@ -258,13 +236,7 @@
       padding: 45px 30px;
     }
 
-
-    /* =========================
-       MOBILE
-    ========================= */
-
     @media (max-width: 700px) {
-
       .hero h1 {
         font-size: 38px;
       }
@@ -285,21 +257,17 @@
       .section-title {
         font-size: 29px;
       }
-    }
 
+      .project-thumbnail {
+        height: 200px;
+      }
+    }
   </style>
 </head>
 
-
 <body>
 
-
-  <!-- =========================
-       NAVIGATION
-  ========================== -->
-
   <nav>
-
     <div class="nav-container">
 
       <div class="name">
@@ -307,38 +275,16 @@
       </div>
 
       <div>
-
-        <a href="#about">
-          About
-        </a>
-
-        <a href="#powerbi">
-          Power BI
-        </a>
-
-        <a href="#analytics">
-          Analytics
-        </a>
-
-        <a href="#statistics">
-          Statistics
-        </a>
-
-        <a href="#contact">
-          Contact
-        </a>
-
+        <a href="#about">About</a>
+        <a href="#powerbi">Power BI</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#statistics">Statistics</a>
+        <a href="#contact">Contact</a>
       </div>
 
     </div>
-
   </nav>
 
-
-
-  <!-- =========================
-       HERO / ABOUT
-  ========================== -->
 
   <section class="hero" id="about">
 
@@ -363,15 +309,7 @@
   </section>
 
 
-
-  <!-- =========================
-       POWER BI PROJECTS
-  ========================== -->
-
-  <section
-    class="portfolio-section powerbi-section"
-    id="powerbi"
-  >
+  <section class="portfolio-section powerbi-section" id="powerbi">
 
     <div class="section-container">
 
@@ -388,52 +326,78 @@
       <div class="project-grid">
 
 
-        <!-- STUDENT PERFORMANCE PROJECT -->
-
         <div class="project-card powerbi-card">
 
-          <span class="project-label powerbi-label">
-            Power BI
-          </span>
-
-          <h3>
-            Student Performance Analysis
-          </h3>
-
-          <p>
-            Analysis of student academic performance, grade patterns,
-            and performance trends using interactive visualizations
-            and key performance indicators.
-          </p>
-
-          <a href="student-performance.html">
-            View Project →
+          <a
+            class="project-thumbnail-link"
+            href="student-performance.html"
+          >
+            <img
+              src="student-performance-thumbnail.png"
+              alt="Student Performance Analysis Power BI dashboard"
+              class="project-thumbnail"
+            >
           </a>
+
+          <div class="project-content">
+
+            <span class="project-label powerbi-label">
+              Power BI
+            </span>
+
+            <h3>
+              Student Performance Analysis
+            </h3>
+
+            <p>
+              Analysis of student academic performance, grade patterns,
+              and performance trends using interactive visualizations
+              and key performance indicators.
+            </p>
+
+            <a href="student-performance.html">
+              View Project →
+            </a>
+
+          </div>
 
         </div>
 
 
-        <!-- SALES PERFORMANCE PROJECT -->
-
         <div class="project-card powerbi-card">
 
-          <span class="project-label powerbi-label">
-            Power BI
-          </span>
-
-          <h3>
-            Sales Performance Analysis
-          </h3>
-
-          <p>
-            Sales performance dashboard analyzing revenue, orders,
-            customers, product performance, sales channels, geographic
-            trends, courier performance, and product returns.
-          </p>
-
-          <a href="sales-performance.html">
-            View Project →
+          <a
+            class="project-thumbnail-link"
+            href="sales-performance.html"
+          >
+            <img
+              src="sales-performance-thumbnail.png"
+              alt="Sales Performance Analysis Power BI dashboard"
+              class="project-thumbnail"
+            >
           </a>
+
+          <div class="project-content">
+
+            <span class="project-label powerbi-label">
+              Power BI
+            </span>
+
+            <h3>
+              Sales Performance Analysis
+            </h3>
+
+            <p>
+              Sales performance dashboard analyzing revenue, orders,
+              customers, product performance, sales channels, geographic
+              trends, courier performance, and product returns.
+            </p>
+
+            <a href="sales-performance.html">
+              View Project →
+            </a>
+
+          </div>
 
         </div>
 
@@ -445,15 +409,7 @@
   </section>
 
 
-
-  <!-- =========================
-       DATA ANALYTICS PROJECTS
-  ========================== -->
-
-  <section
-    class="portfolio-section analytics-section"
-    id="analytics"
-  >
+  <section class="portfolio-section analytics-section" id="analytics">
 
     <div class="section-container">
 
@@ -469,29 +425,31 @@
 
       <div class="project-grid">
 
-
         <div class="project-card analytics-card">
 
-          <span class="project-label analytics-label">
-            Data Analytics
-          </span>
+          <div class="project-content">
 
-          <h3>
-            More Projects Coming Soon
-          </h3>
+            <span class="project-label analytics-label">
+              Data Analytics
+            </span>
 
-          <p>
-            Additional data analytics projects will be added here,
-            including projects involving SQL, Python, Excel,
-            and data visualization.
-          </p>
+            <h3>
+              More Projects Coming Soon
+            </h3>
 
-          <span class="coming-soon">
-            Coming soon
-          </span>
+            <p>
+              Additional data analytics projects will be added here,
+              including projects involving SQL, Python, Excel,
+              and data visualization.
+            </p>
+
+            <span class="coming-soon">
+              Coming soon
+            </span>
+
+          </div>
 
         </div>
-
 
       </div>
 
@@ -500,15 +458,7 @@
   </section>
 
 
-
-  <!-- =========================
-       STATISTICAL ANALYSIS
-  ========================== -->
-
-  <section
-    class="portfolio-section statistics-section"
-    id="statistics"
-  >
+  <section class="portfolio-section statistics-section" id="statistics">
 
     <div class="section-container">
 
@@ -524,28 +474,30 @@
 
       <div class="project-grid">
 
-
         <div class="project-card statistics-card">
 
-          <span class="project-label statistics-label">
-            Statistics
-          </span>
+          <div class="project-content">
 
-          <h3>
-            More Projects Coming Soon
-          </h3>
+            <span class="project-label statistics-label">
+              Statistics
+            </span>
 
-          <p>
-            Statistical analysis and modeling projects will be added
-            to this section.
-          </p>
+            <h3>
+              More Projects Coming Soon
+            </h3>
 
-          <span class="coming-soon">
-            Coming soon
-          </span>
+            <p>
+              Statistical analysis and modeling projects will be added
+              to this section.
+            </p>
+
+            <span class="coming-soon">
+              Coming soon
+            </span>
+
+          </div>
 
         </div>
-
 
       </div>
 
@@ -554,11 +506,6 @@
   </section>
 
 
-
-  <!-- =========================
-       FOOTER / CONTACT
-  ========================== -->
-
   <footer id="contact">
 
     <p>
@@ -566,7 +513,6 @@
     </p>
 
   </footer>
-
 
 </body>
 </html>
