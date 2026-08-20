@@ -1,0 +1,1110 @@
+
+---
+title: "Data Mining Analysis of King County Housing Dataset"
+subtitle: "Statistical Learning & Machine Learning Portfolio Project"
+author: "Wanangwa Msiska"
+output:
+  pdf_document:
+    toc: false
+    number_sections: true
+    toc_depth: 2
+    citation_package: biblatex
+    extra_dependencies: "subfig"
+  html_document:
+    toc: true
+    number_sections: true
+    toc_depth: 2
+bibliography: references.bib
+csl: apa.csl
+header-includes:
+  - \usepackage{float}
+
+---
+```{r setup, include=FALSE, warning=FALSE, message=FALSE, results='asis'}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+rm(list = ls())
+```
+
+\thispagestyle{empty}
+\rule{\textwidth}{0.4pt}
+\vspace{0.2em}
+\noindent\textbf{\LARGE Abstract}
+\vspace{0.5em}
+
+This study explores housing price prediction using the King County housing dataset, which contains 21,613 residential property sales recorded between May 2014 and May 2015 in King County, Washington. The primary goal is to identify key factors that influence house prices and to develop predictive models that can accurately estimate property values based on structural, locational, and historical features. Techniques used include multiple linear regression, LASSO, ridge regression, stepwise selection, regression trees, bagging, and random forests.
+
+Clustering methods, including K-means, hierarchical, and model-based clustering, reveal hidden patterns in the data. Key predictors of price include living space and quality of material used in constructing the house (grade). Random forests provided the best predictive performance by capturing non-linear relationships.
+
+Clustering uncovered distinct housing market segments, with K-means and hierarchical clustering identifying three main groups, while model-based clustering revealed nine submarkets. These findings suggest that house prices are influenced by size, age, and likely location.
+
+\vspace{0.2em}
+
+\rule{\textwidth}{0.4pt}
+
+\tableofcontents
+\newpage
+
+# Introduction
+Housing prices play a pivotal role in shaping the economic stability and social well-being of individuals and communities. As one of the most significant financial assets for households, the value of a home is determined by a complex interplay of factors, including location, property characteristics, economic conditions, interest rates, and population growth. Accurate assessment and prediction of housing prices are essential for various stakeholders, including prospective buyers, real estate investors, policymakers, and urban planners. In recent years, advances in data mining and machine learning have significantly enhanced our ability to analyze large housing datasets and build reliable valuation models [@zhang2018urban].
+
+In this study, we expand on the idea of house price prediction by using the King County housing dataset as a case study to explore these relationships in greater detail. The dataset covers residential property transactions in King County, Washington, from May 2014 to May 2015. King County—home to major cities such as Seattle and Bellevue—is the most populous county in Washington State, with an estimated population of 2,052,800 in 2015 [@ofm2015population]. A higher population density typically corresponds with greater housing demand and more active real estate transactions, which in turn improves the quality and reliability of the available data.
+
+The dataset, obtained from Kaggle and originally compiled by the King County Assessor’s Office, contains $21,613$ house sales recorded in King County, with 21 various attributes describing the properties and their transactions [@Geoda].
+
+**Response Variable:**
+
+* **Price:** The sale price of a house (continuous variable).
+
+**Regressors (Predictor Variables):**
+
+* **Location-Based Features:** Latitude, longitude and zip code.
+* **Structural Features:** Number of bedrooms, number of bathrooms, square footage of living space, square footage of the lot, number of floors, waterfront presence, view rating, condition rating, and grade rating.
+* **Temporal Features:** Year the house was built, year of renovation.
+* **Neighborhood Attributes:** Average size of interior housing living space for the closest 15 houses, Average size of land lots for the closest 15 houses, in square feet.
+
+
+From a broader perspective, the application of data mining techniques in real estate analytics directly supports the goals of the United Nations Sustainable Development Goal (SDG) 11: Sustainable Cities and Communities, which emphasizes the importance of inclusive, safe, and affordable housing. By leveraging predictive modeling, this research contributes to data-driven decision-making, equitable housing policy, and efficient resource allocation. Additionally, it aligns with SDG 9: Industry, Innovation, and Infrastructure, as insights from predictive models can support infrastructure planning and strategic real estate development. Furthermore, it advances SDG 10: Reduced Inequalities by enabling a deeper understanding of real estate trends, which can inform policies aimed at promoting equitable access to housing across different regions and socio-economic groups.
+
+Previous studies have successfully applied statistical and machine learning approaches—including multiple linear regression, decision trees, random forests, and gradient boosting machines—to predict housing prices and capture complex, nonlinear relationships between variables [@antipov2012mass] [@khamis2020comparative]. In this study, we extend this body of work by exploring a wider range of modeling techniques. These include multiple linear regression, stepwise selection, LASSO regression, ridge regression, and ensemble methods, as well as unsupervised learning approaches such as K-means clustering, hierarchical and Model-based clustering.
+
+The remainder of this report is organized as follows:
+
+* **Section 2** describes the data preprocessing steps, identification of anomalies, results of exploratory data analysis and visualizations.
+*	**Section 3** discusses model development and performance evaluation metrics.
+*	**Section 4** discusses the results of the Analysis.
+* **Section 5** summarizes the key findings, limitations and recommendations for future works.
+* **Section 6** contains supplementary materials in Appendix.
+
+# Exploratory Data Analysis (EDA)
+## Data Cleaning
+In this section, we cleaned the data from anomalies and explored some summary statistics (see Appendix for R outputs and more comprehensive details). 
+```{r, echo=FALSE, results='hide'}
+# Load libraries
+library(tidyverse)
+library(ggplot2)
+library(GGally)
+library(gridExtra)
+library(scales)
+library(dplyr)
+
+
+# Read Data Into R
+king_data = read.csv("../data/kc_house_data.csv")
+
+# View the structure of the data
+dim(king_data) # number of observations and variables
+str(king_data)
+```
+
+```{r, echo=FALSE, results='hide'}
+# Make Waterfront a categorical variable with 0="No waterfront" and 1="Waterfront"
+king_data$waterfront = as.factor(king_data$waterfront)
+levels(king_data$waterfront) = c("No", "Yes")
+
+# Check for missing values
+colSums(is.na(king_data))
+```
+
+```{r, echo=FALSE, results='hide'}
+# Convert date to proper Date format
+king_data$date <- as.Date(king_data$date, format = "%Y%m%d")
+
+# Extract year sold from date
+king_data$year_sold <- as.numeric(format(king_data$date, "%Y"))
+king_data$year_sold <- as.numeric(king_data$year_sold)
+
+# Calculate age of the house at time of sale
+king_data$house_age <- king_data$year_sold - king_data$yr_built
+knitr::kable(head(king_data[, c("date", "year_sold", "yr_built", "house_age")]))
+```
+
+```{r, echo=FALSE, results='hide'}
+# Check for anomalies with date of sale and year built and year renovated
+anomalies = subset(king_data[c(which(year(king_data$date)<king_data$yr_built), 
+                               which(year(king_data$date)<king_data$yr_renovated)),],
+                   select = c(id, date, price, yr_built, yr_renovated))
+
+knitr::kable(anomalies)
+```
+
+```{r, echo=FALSE, results='hide'}
+#The age since last renovation if it was renovated.
+king_data$age_renovated <- ifelse(
+  king_data$yr_renovated == 0,
+  king_data$year_sold - king_data$yr_built,
+  king_data$year_sold - king_data$yr_renovated
+)
+
+```
+
+```{r, echo=FALSE, results='hide'}
+# Remove data points with Anomalies
+king_data = king_data[-which(!is.na(match(king_data$id, anomalies$id))),]
+
+# Remove ID variable
+king_data = king_data%>%select(-c(sqft_basement,id))
+
+# Get summary of data
+knitr::kable(t(summary(king_data)))
+```
+
+* The "Waterfront" variable was originally coded as integer, but we recoded it as a categorical variable ("0"-No waterfront, "1"-Waterfront).
+* We created a new variable - **“yr_renovated”**. This represent the difference between the renovation year and the sale year to better reflect its impact on property value.
+* We noted a few anomalies in the dataset:
+  - we ensured the date variable is properly formatted.
+  - There were 21 recorded transactions where either the year the house was built/renovated is greater than the year the sale occurred, meaning the house was sold before it was built or it was renovated after it was sold. Based on this, we excluded those transactions from the dataset.
+  - The size of living area ("sqft_living") is the sum of living area above ("sqft_above") and size of living area in the basement ("sqft_basement"), so we would exclude the size of living area in the basement from the data to avoid perfect multicollinearity in our regression model. 
+  - The spread from the 3rd quartile for Price ($\$645,000$) to the maximum price ($\$7,700,000$) was so wide.
+  - The spread from the 3rd quartile for bathrooms (4) to the maximum number of bathrooms (33) was so wide and 33 may be an error of commission.
+  - Same suspicion with the Size of living area and Size of the lot variables too.
+
+* So, we extracted all transactions with Bedrooms > 10, sqft_living > 10,000, sqft_lot > 1,000,000 to check for anomalies.
+
+```{r, echo=FALSE, results='hide'}
+# View observation with Bedrooms > 10, sqft_living > 10000, sqft_lot > 1000000 for more anomalies
+knitr::kable(subset(king_data[c(which(king_data$sqft_lot>1000000),which(king_data$sqft_living>10000),
+                                which(king_data$bedrooms>10),which(king_data$price>5000000)),],
+                    select = c(date, price, bedrooms, bathrooms, sqft_living, sqft_lot, floors)))
+```
+
+* Based on the result, we concluded that only the transaction with Bedroom = 33 was an anomaly because the house had only one floor, 1.75 bathroom and a small size of living area too. Therefore the observation was removed. We then proceed to obtain the final summary of the cleaned data.
+
+```{r, echo=FALSE, results='hide'}
+# Clean data (Bedrooms, sqft_living, sqft_lot)
+king_data = king_data[-which(king_data$bedrooms>11),]
+
+# Final summary of data
+summary(king_data)
+```
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{rllllll}
+\hline
+Variable & Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\ 
+\hline
+date & 2014-05-02   & 2014-07-22   & 2014-10-16   & 2014-10-29   & 2015-02-17   & 2015-05-27   \\ 
+price &   75000   &  321500   &  450000   &  540098   &  645000   & 7700000   \\ 
+bedrooms &  0.000   &  3.000   &  3.000   &  3.369   &  4.000   & 11.000   \\ 
+bathrooms & 0.000   & 1.750   & 2.250   & 2.114   & 2.500   & 8.000   \\ 
+sqft\_living &   290   &  1428   &  1910   &  2080   &  2550   & 13540   \\ 
+sqft\_lot &     520   &    5040   &    7620   &   15114   &   10696   & 1651359   \\ 
+floors & 1.000   & 1.000   & 1.500   & 1.494   & 2.000   & 3.500   \\ 
+waterfront & No :21431   & Yes:  163   &  &  &  &  \\ 
+view & 0.0000   & 0.0000   & 0.0000   & 0.2339   & 0.0000   & 4.0000   \\ 
+condition & 1.00   & 3.00   & 3.00   & 3.41   & 4.00   & 5.00   \\ 
+grade &  1.000   &  7.000   &  7.000   &  7.656   &  8.000   & 13.000   \\ 
+sqft\_above &  290   & 1190   & 1560   & 1788   & 2210   & 9410   \\ 
+yr\_built & 1900   & 1951   & 1975   & 1971   & 1997   & 2015   \\ 
+yr\_renovated &    0.00   &    0.00   &    0.00   &   83.92   &    0.00   & 2015.00   \\ 
+zipcode & 98001   & 98033   & 98065   & 98078   & 98117   & 98199   \\ 
+lat & 47.16   & 47.47   & 47.57   & 47.56   & 47.68   & 47.78   \\ 
+long & -122.5   & -122.3   & -122.2   & -122.2   & -122.1   & -121.3   \\ 
+sqft\_living15 &  399   & 1490   & 1840   & 1987   & 2360   & 6210   \\ 
+sqft\_lot15 &    651   &   5100   &   7620   &  12773   &  10084   & 871200   \\ 
+year\_sold & 2014   & 2014   & 2014   & 2014   & 2015   & 2015   \\ 
+house\_age &   0.00   &  18.00   &  40.00   &  43.33   &  63.00   & 115.00   \\ 
+age\_renovated &   0.00   &  16.00   &  37.00   &  40.97   &  60.00   & 115.00   \\ 
+\hline
+\end{tabular}
+\caption{Summary of Cleaned data}\label{tab:summary-cleaned}
+\end{table}
+
+\newpage
+
+## Data Visualizations
+```{r, echo=FALSE, figures-side, fig.show="hold", out.width="50%", fig.cap={"Histogram and Timesries Plot of House Prices"} }
+# Plot price distribution
+ggplot(king_data, aes(x = price)) +
+  geom_histogram(fill = "steelblue", bins = 50) +
+  scale_x_continuous(labels = comma) +
+  labs(title = "Distribution of House Prices", x = "Price", y = "Count")
+
+# Aggregate average price by date
+avg_price_time <- king_data %>%
+  group_by(date) %>%
+  summarise(avg_price = median(price))
+
+# Plot the average price over time
+ggplot(avg_price_time, aes(x = date, y = avg_price)) +
+  geom_line(color = "steelblue", size = 1) +
+  labs(
+    title = "Time Series of Average House Price",
+    x = "Date",
+    y = "Median Price"
+  ) +
+  scale_y_continuous(labels = scales::comma) 
+```
+
+The histogram (Left) showed that the distribution of the house prices was right-skewed, indicating that there were a few houses that were very expensive compared to the majority of houses. Majority of the houses were priced between $\$300,000$ and $\$650,000$, with a few houses priced over $\$2,000,000$.
+
+The timeseries plot shows that, on average, while the house prices appear to be stationary over time, there was a sudden jump in average house price between October and November 2014 before price returned to stationary and then jumped again in May 2015.  
+
+```{r, echo=FALSE, out.width="70%", fig.cap="Housing Characteristics in King County", fig.subcap=c('Correlation plot for Numeric Variables', 'Geographic Distribution of House Prices in King County'), fig.ncol=2, out.width="50%", fig.align='center', fig.pos='H'}
+# Correlation plot of numerical predictors
+num_vars <- king_data %>% 
+  select(-c(date, waterfront, zipcode, lat, long, yr_built, yr_renovated))
+
+# Calculate correlation matrix
+cor_matrix <- round(cor(num_vars, use = "complete.obs"), 2)
+
+ggcorr(num_vars, 
+       label = TRUE, 
+       label_alpha = TRUE, 
+       hjust = 1,
+       layout.exp = 1,
+       size = 3,
+       color = "steelblue") +
+  ggtitle("Correlation Matrix of Numerical Variables") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Load libraries
+library(ggplot2)
+library(scales)
+
+# Set margin for plot
+par(mar=c(0.5,0.5,0.5,0))
+
+# Plot prices on a map using longitude and latitude
+ggplot(king_data, aes(x = long, y = lat, color = price)) +
+  geom_point(alpha = 0.3, size = 1.5) +
+  scale_color_viridis_c(option = "plasma", labels = comma) +
+  labs(
+    title = "",
+    x = "Longitude", y = "Latitude",
+    color = "Price ($)"
+  ) 
+```
+
+```{r, echo=FALSE}
+# Top 10 most correlated variables with price
+price_corr <- cor(num_vars, use = "complete.obs")[, "price"]
+top_10_price_corr <- sort(price_corr, decreasing = TRUE)[2:11]  # Exclude price itself
+knitr::kable(t(round(top_10_price_corr,4)))
+
+```
+
+The square footage of living area and the house grade were the most correlated with house price. The higher the size of living area, on average, the higher the price.
+
+Houses with higher prices were concentrated around Seattle and waterfront areas (latitudes near 47.6–47.7 and longitudes around -122.3 to -122.2). Lower-priced homes were more spread out in the south and east regions of the county. This spatial trend aligns with urbanization and proximity to major amenities and coastlines.
+
+```{r, echo=FALSE, fig.cap='Visualizing Housing Trends — Distribution and Relationships Among Key Features', fig.subcap=c('Distribution of Houses by Year Built', 'Relationship Between Price and Living Area', 'Variation in Price by Number of Bedrooms', 'Effect of Waterfront Presence on House Prices'), fig.ncol=2, out.width="50%", fig.align='center', fig.pos='H'}
+# Create bins and labels
+bins <- c(-2, 1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, Inf)
+labels <- c("<1", "1-10", "11-20", "20-30", "30-40", "40-50", "50-60", 
+            "60-70", "70-80", "80-90", "90-100", ">100")
+
+# Apply binning
+king_data$house_age_binned <- cut(king_data$house_age, 
+                                  breaks = bins, 
+                                  labels = labels, 
+                                  right = TRUE, 
+                                  include.lowest = TRUE)
+
+# Count houses per age bin (using base R)
+age_bin_counts <- table(king_data$house_age_binned)
+
+ggplot(king_data, aes(x = house_age_binned)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  labs(title = "",
+       x = "Age Built (Years)",
+       y = "Number of Houses") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for readability
+
+# Scatter plot: Price vs. Square Footage
+ggplot(king_data, aes(x = sqft_living, y = price)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", col = "steelblue") +
+  labs(title = "", x = "Square Foot Living", y = "Price")
+
+# Boxplot: Price by number of bedrooms
+ggplot(king_data, aes(x = factor(bedrooms), y = price)) +
+  geom_boxplot(fill = "steelblue") +
+  scale_y_continuous(labels = comma) +
+  labs(title = "", x = "Bedrooms", y = "Price")
+
+# Boxplot: Price by waterfront or no waterfront
+ggplot(king_data, aes(x = factor(waterfront), y = price)) +
+  geom_boxplot(fill = "steelblue") +
+  scale_y_continuous(labels = comma) +
+  labs(title = "", x = "Waterfront", y = "Price")
+```
+
+The plot in Figure 1a shows that most houses in the dataset were between 1 and 70 years old. Figure 1c illustrates a general trend of increasing median house prices with the number of bedrooms, suggesting that larger homes tend to be priced higher. However, there are notable exceptions where houses with fewer bedrooms still command high prices. Finally, Figure 1d reveals that properties with waterfront views have significantly higher median prices compared to those without, highlighting the premium associated with such features.
+
+
+# Methodology
+This project employed a wide range of supervised and unsupervised learning techniques to model house prices in King County, Washington. Our methodological framework is structured in three main parts: **regression models**, **tree-based and ensemble methods**, and **clustering techniques**. Each method offers unique strengths for prediction, interpretation, or segmentation, and allows us to understand both the determinants and latent structure of housing prices.
+
+## Regression Models
+
+### Multiple Linear Regression (MLR)
+Multiple Linear Regression (MLR) is a fundamental supervised learning technique used to model the linear relationship between a dependent variable, in this case, house price, and multiple independent variables that represent various housing attributes. The primary goal of MLR is to understand how different features of a house contribute to variations in its price, and to develop a predictive model that can estimate prices for new observations based on these features.
+
+In the context of MLR, the dependent variable \( Y \) is modeled as a linear combination of several predictor variables \( X_1, X_2, \dots, X_p \), along with an error term \( \varepsilon \) to account for random variability not explained by the predictors. The mathematical form of the model is given by:
+  
+$$
+  Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \varepsilon \tag{1}
+$$
+  
+Here, \( Y \) represents the outcome (house price), \( X_1, X_2, \dots, X_p \) are the predictors or independent variables, \( \beta_0 \) is the intercept, \( \beta_1, \beta_2, \dots, \beta_p \) are the coefficients that measure the effect of each predictor on the outcome, and \( \varepsilon \) denotes the random error term.
+
+To apply MLR to the King County housing dataset, we begin by selecting relevant predictors such as square footage, number of bedrooms, and location-related variables. We then fit a linear regression model, interpret the estimated coefficients to assess the influence of each variable on house price, and examine diagnostic plots and statistical tests to evaluate the model’s validity. A well-specified model can provide both insights into the factors driving house prices and accurate predictions for future listings.
+
+### Stepwise Regression
+To improve the predictive accuracy and interpretability of the multiple linear regression model, we now perform **stepwise variable selection**. This process helps identify the most significant predictors by iteratively adding or removing variables based on criteria such as the Akaike Information Criterion (AIC).
+
+We combine this with **k-fold cross-validation** to validate model performance and ensure that selected variables generalize well to unseen data. Cross-validation mitigates overfitting and provides a more robust estimate of model performance.
+
+### LASSO and Ridge Regression
+LASSO regression enhances linear regression by introducing an \( L_1 \) penalty term to the loss function. This regularization technique encourages **sparse models** by shrinking some coefficients exactly to zero, effectively performing variable selection and simplifying the model. By penalizing the absolute values of the coefficients, LASSO helps prevent overfitting while retaining only the most relevant predictors.
+
+To fit a LASSO model, we use the `glmnet` package in R, which implements efficient algorithms for regularized regression.
+
+In comparison, **Ridge Regression** minimizes the following objective function:
+  
+$$
+  \hat{\beta}_{ridge} = \arg\min_{\beta} \left\{ \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T \beta)^2 + \lambda \sum_{j=1}^{p} \beta_j^2 \right\} \tag{3}
+$$
+  
+Here, \( \lambda \) is a tuning parameter that controls the strength of the regularization. The second term is the \( L_2 \) penalty, which shrinks coefficients but does not set them to exactly zero. This helps in reducing model complexity and multicollinearity, but retains all predictors.
+
+In contrast, **LASSO Regression** minimizes a similar objective function but with an \( L_1 \) penalty:
+  
+$$
+  \hat{\beta}_{lasso} = \arg\min_{\beta} \left\{ \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T \beta)^2 + \lambda \sum_{j=1}^{p} |\beta_j| \right\}
+$$
+  
+The key difference is that the \( L_1 \) penalty in LASSO tends to shrink some coefficients to exactly zero, thereby performing variable selection. The parameter \( \lambda \) again controls the trade-off between fitting the data and regularizing the model.
+
+In the next step, we will fit a LASSO regression model using the `glmnet` package and assess its predictive performance through cross-validation.
+
+### K-Nearest Neighbors (KNN)
+This is nonparametric method that predicts house prices based on the average prices of the $k$ most similar properties. This approach is particularly useful for capturing local trends in real estate markets.
+
+## Tree-Based Models
+
+### Regression Tree
+Regression Trees are recursive partitioning models that split the predictor space into non-overlapping regions. At each split, the algorithm chooses a feature and a threshold that minimizes the variance within the resulting partitions.
+
+These models are interpretable and handle non-linear relationships and interactions well. However, single trees can be unstable and prone to overfitting, which motivates the use of ensemble techniques.
+
+### Bagging
+Bagging, or **Bootstrap Aggregating**, is an ensemble learning method designed to improve the stability and accuracy of machine learning algorithms by reducing variance. It works by generating multiple versions of a training dataset using bootstrap sampling (sampling with replacement) and training a separate model on each version. The final prediction is obtained by aggregating the results, typically through averaging in regression tasks.
+
+Bagging is especially effective with high-variance models such as decision trees, and it helps prevent overfitting by smoothing out the prediction surface. In this section, we apply bagging using the `caret` package in R with a large number of trees to reduce the overall prediction error.
+
+We will assess model performance using RMSE on test datasets, and compare the results to our previous linear and regularized regression model
+
+### Random Forest
+Random Forest is an advanced ensemble learning method that builds on Bagging by incorporating **random feature selection** at each split in the decision trees. This added layer of randomness helps to **reduce correlation** between the individual trees, resulting in a more robust and accurate prediction model.
+
+Unlike Bagging, where all predictors are considered for every split, Random Forest selects a random subset of predictors at each node, which typically improves performance by reducing overfitting and enhancing generalization. It is particularly effective in handling nonlinear relationships and interactions among predictors.
+
+
+## Clustering Methods
+
+### Hierarchical Clustering
+Hierarchical clustering builds a hierarchy of clusters using an agglomerative (bottom-up) approach. It does not require a pre-specified number of clusters and produces a dendrogram that visualizes the nested grouping structure.
+
+We apply hierarchical clustering on standardized variables selected by LASSO regression to explore natural groupings in the housing market and identify submarkets with similar pricing behaviors.
+
+### K-Means Clustering
+K-Means clustering partitions the dataset into $k$ clusters by minimizing within-cluster sum of squares. It requires choosing the number of clusters beforehand, which we determine using the elbow method or silhouette analysis.
+
+This technique helps uncover latent price segments and patterns in the housing market, enabling potential geographic or design-based segmentation.
+
+### Model-Based Clustering (mclust)
+Model-based clustering assumes that data points are generated from a finite mixture of Gaussian distributions, each representing a cluster. The mclust package in R uses the Bayesian Information Criterion (BIC) to automatically select the optimal number of clusters and covariance structure.
+
+
+# Results and Discussion
+First, we converted the house prices to thousands to allow for proper formatting, so all house prices are in $\$'000$.
+
+## Regression Results
+
+### Multiple Linear Regression
+```{r, echo=FALSE}
+#########################################
+## Create training and test data ##
+#########################################
+
+## Include the functions required for data partitioning
+source("~/Library/CloudStorage/OneDrive-BowlingGreenStateUniversity/SPRING 2025/STAT 6440 DATA MINING/myfunctions.R")
+
+RNGkind (sample.kind = "Rounding") 
+set.seed(0) ## set seed so that you get same partition each time
+num_analysis = king_data%>%select(-c(date,zipcode,lat,long,yr_built,yr_renovated,house_age_binned, year_sold))
+num_vars_analysis <- num_analysis %>%mutate(waterfront = ifelse(waterfront == "No", 0, 1))
+num_vars_analysis$price = num_vars_analysis$price/1000
+p2 <- partition.2(num_vars_analysis, 0.7) ## creating 70:30 partition
+training.data <- p2$data.train
+test.data <- p2$data.test
+```
+
+```{r, echo=FALSE}
+###################################################################
+## Multiple linear regression model  ##
+###################################################################
+library(car)
+
+## Fit MLR model
+mlr <- lm(price ~ ., data = training.data)
+
+## Inference on model parameters ##
+s = summary(mlr)
+knitr::kable(round(s$coefficients, 4), caption = "Multiple Linear Regression results")
+```
+
+The summary above shows that the lot size and size of living area above were not statistically significant at $5\%$ level. This is possibly due to the fact that lot size and size of living area are highly correlated. Also, size of living area above and size of living area are highly correlated. We then proceed to check the presence of multicollinearity between the variables (only top 5 VIFs are shown):
+
+```{r, echo=FALSE}
+## Check multicollinearity
+library(car)
+knitr::kable(t(sort(round(vif(mlr, )[1:5],4), decreasing = T)))
+```
+
+Based on the above, we observe the presence of multicollinearity and so, based on the correlation plot, we proceed to remove the size of living area above, age since the house was renovated and square footage of the lot from the model.
+
+```{r, echo=FALSE}
+## Select final model
+mlr2 <- lm(price ~ . , data = subset(training.data, select = -c(sqft_above,sqft_lot,age_renovated, sqft_living15)))
+s2 = summary(mlr2)
+knitr::kable(round(s2$coefficients, 4))
+knitr::kable(t(sort(round(vif(mlr2, )[1:5],2), decreasing = T)))
+```
+
+We note that the values of the coefficient of determination remain essentially unchanged in the updated model. Specifically, the Multiple R-squared is \( R^2 = 0.6559 \) and the Adjusted R-squared is \( \text{Adjusted } R^2 = 0.6557 \), which are nearly identical to the values from the initial model: \( R^2 = 0.6567 \) and \( \text{Adjusted } R^2 = 0.6563 \). This suggests that the modifications to the model had minimal impact on its overall explanatory power.
+
+Also, multicollinearity has been eliminated. Final model is:
+\begin{align*}
+\widehat{\text{price}}('000) = & -976 - 42.04(\text{bedrooms}) + 53.52(\text{bathrooms}) + 0.17(\text{sqft\_living})\\
+& + 20.24(\text{floors}) + 590.3(\text{waterfront}) + 45.58(\text{view}) + 15.85(\text{condition})\\
+& + 122.2(\text{grade}) - 0.0005(\text{sqft\_lot15}) + 3.65(\text{house\_age})
+\end{align*}
+
+We assess the model's performance using the Root Mean Squared Error (RMSE) on both the training and test datasets. Lower RMSE values indicate better predictive accuracy.
+
+
+```{r, echo=FALSE, results='hide'}
+####################################################
+## Evaluate performance on training and test data ##
+####################################################
+
+# RMSE for training data
+error.train <-  training.data$price - mlr2$fitted.values
+rmse.train <- sqrt(mean(error.train^2))
+cat("The training RMSE is: ", rmse.train, "\n")
+```
+
+```{r, echo=FALSE, results='hide'}
+# prediction on test data
+yhat = predict(mlr2, newdata=data.frame(test.data))
+# RMSE for test data
+error.test <-  test.data$price - yhat
+rmse.test <- sqrt(mean(error.test^2))
+cat("The test RMSE is: ", rmse.test, "\n")
+```
+
+The training and test RMSE values are approximately \$213,417 and \$221,680.80, respectively. These results indicate that, on average, the model's predicted house prices could deviate from the actual prices by as much as \$221,680.80. Such a large error margin may lead to significant underestimation or overestimation, potentially resulting in predicted prices that are unrealistically low, or even negative in extreme cases.
+
+Furthermore, the final coefficient of determination, \( R^2 = 0.6559 \), suggests that the model explains about 65.6% of the variance in house prices. While this may indicate a moderately good fit, it also highlights that a substantial portion of the variability remains unexplained. This relatively low \( R^2 \) value implies that the relationship between house price and the predictor variables may not be strictly linear. As a result, it may be worthwhile to explore non-linear modeling techniques or more flexible machine learning methods to improve predictive accuracy.
+
+### Stepwise Variable Selection 
+
+Below, we use stepwise selection based on AIC using the `stepAIC()` function from the **MASS** package, along with 10-fold cross-validation using the **caret** package.
+
+```{r, echo=FALSE, results='hide'}
+library(caret)
+###########################
+### Stepwise selection ####
+### w Cross Validation ####
+###########################
+
+## K-fold Cross Validation
+# value of K equal to 10 
+set.seed(0)
+train_control <- trainControl(method = "cv", 
+                              number = 10) 
+
+# Fit K-fold CV model  
+step_kcv <- train(price ~ ., data = training.data,  
+                  method = "lmStepAIC", trControl = train_control) 
+print(step_kcv)
+step_kcv$finalModel
+```
+
+```{r, echo=FALSE, results='hide'}
+knitr::kable(round(step_kcv$finalModel$coefficients, 4))
+```
+
+The final multiple linear regression model selected via stepwise AIC included the following predictors: `bedrooms`, `bathrooms`, `sqft_living`, `floors`, `waterfront`, `view`, `condition`, `grade`, `sqft_living15`, `sqft_lot15`, `house_age`, and `age_renovated`.
+
+The fitted equation is:
+\begin{align*}
+\widehat{\text{price}}('000) = & -975.66 -41.88(\text{bedrooms}) + 53.69(\text{bathrooms}) + 0.163(\text{sqft}\_\text{living}) \\
+& + 21.47(\text{floors}) + 592.20(\text{waterfront}) + 43.94(\text{view}) + 17.40(\text{condition}) \\
+& + 117.85(\text{grade}) + 0.0223(\text{sqft}\_\text{living15}) - 0.0006(\text{sqft}\_\text{lot15}) \\
+& + 3.93(\text{house}\_\text{age}) - 0.31(\text{age}\_\text{renovated})
+\end{align*}
+
+
+All selected variables are statistically significant and contribute to explaining variability in house prices. Notably, `waterfront`, `grade`, and `sqft_living` have strong positive effects, while `bedrooms` and `sqft_lot15` have negative coefficients, potentially due to multicollinearity or interactions with other variables. Interestingly, `age_renovated` enters the model with a negative coefficient, suggesting that, all else equal, more recently renovated homes (lower values for age_renovated) tend to have higher prices.
+
+This model reflects a more refined and potentially more predictive structure than the initial full model, as it retains only the most informative variables while eliminating those that contributed little to model performance.
+
+
+```{r, echo=FALSE, results='hide'}
+# Predict on test data
+step_preds <- predict(step_kcv, newdata = test.data)
+rmse_step <- sqrt(mean((step_preds - test.data$price)^2))
+print(rmse_step)
+
+```
+The Root Mean Squared Error (RMSE) of the final model on the test dataset is approximately \$221,470.80. This value is consistent with the previous model’s test RMSE of \$221,680.80, indicating that stepwise selection did not significantly reduce prediction error. This reinforces the need to explore more flexible or non-linear modeling approaches if the goal is to further reduce prediction error.
+
+
+### LASSO and Ridge Regression
+In this next step, we will fit LASSO and Ridge regression models using the `glmnet` package and assess their predictive performance through cross-validation.
+
+```{r, echo=FALSE, results='hide'}
+#########################
+### Lasso regression ####
+#########################
+library(caret)
+set.seed(0)
+train_control <- trainControl(method="cv", number=10)
+
+glmnet.lasso <- train(price ~ ., data = training.data, method = "glmnet",
+                      trControl = train_control, 
+                      tuneGrid = expand.grid(alpha = 1,lambda = seq(0.1,1,by = 0.1)))
+```
+
+```{r, echo=FALSE}
+# best parameter
+knitr::kable(glmnet.lasso$bestTune, caption = "Best Parameter for Lasso Regression")
+```
+
+```{r, echo=FALSE, results='hide'}
+# best coefficient
+lasso.model <- coef(glmnet.lasso$finalModel, glmnet.lasso$bestTune$lambda)
+round(lasso.model,4)
+
+# prediction on test data
+yhat.lasso <- predict(glmnet.lasso, s = glmnet.lasso$bestTune, test.data)
+# RMSE for test data
+error.test.lasso <- yhat.lasso - test.data$price
+rmse.test.lasso <- sqrt(mean(error.test.lasso^2))
+
+cat("The test RMSE is: ", rmse.test.lasso, "\n")
+```
+
+The test RMSE of \$221,456.60 from the LASSO regression did not show a significant improvement over the test RMSE of \$221,680.70 from the ordinary least squares (OLS) regression. This suggests that, on average, predicted house prices may deviate by approximately \$221,456 from their actual values. Such a large error margin may lead to substantial underestimation or overestimation of property values, potentially resulting in predictions that are unrealistically low—possibly even zero or negative in extreme cases.
+
+Just like in the OLS regression model, the final LASSO model also excludes the variable `sqft_lot` and `age_renovated`, as their coefficients were shrunk to exactly zero. In addition, `sqft_above` was also eliminated by LASSO due to its limited contribution to model performance. This indicates that, in the presence of other predictive variables, both `sqft_lot` and `sqft_above` do not significantly improve the model's ability to explain variation in house prices and can be safely omitted to simplify the model.
+                       
+The fitted LASSO equation is:
+                         
+\begin{align*}
+                       \widehat{\text{price}}('000) = & -968.94 -39.46(\text{bedrooms}) + 52.86(\text{bathrooms}) + 0.162(\text{sqft}\_\text{living}) \\
+& + 20.03(\text{floors}) + 587.17(\text{waterfront}) + 44.14(\text{view}) + 15.14(\text{condition}) \\
+& + 118.15(\text{grade}) + 0.021(\text{sqft}\_\text{living15}) - 0.0005(\text{sqft}\_\text{lot15}) + 3.62(\text{house}\_\text{age})
+\end{align*}
+
+
+```{r, echo=FALSE, results='hide'}
+#########################
+### Ridge regression ####
+#########################
+
+glmnet.ridge <- train(price ~ .,
+                      data = training.data,
+                      method = "glmnet",
+                      trControl = train_control,
+                      tuneGrid = expand.grid(alpha = 0, lambda = seq(0.001, 0.1, by = 0.001))
+)
+
+```
+
+```{r, echo=FALSE}
+# best parameter
+knitr::kable(glmnet.ridge$bestTune, caption = "Best Parameter for Ridge Regression")
+```
+
+```{r, echo=FALSE, results='hide'}
+# best coefficient
+ridge.model <- coef(glmnet.ridge$finalModel, glmnet.ridge$bestTune$lambda)
+round(ridge.model,4)
+
+# prediction on test data
+yhat.ridge <- predict(glmnet.ridge, s = glmnet.ridge$bestTune, test.data)
+# RMSE for test data
+error.test.ridge <- yhat.ridge - test.data$price
+rmse.test.ridge <- sqrt(mean(error.test.ridge^2))
+rmse.test.ridge
+
+```
+
+The Ridge regression model produced a test RMSE of \$222,700.40, which is slightly higher than the test RMSEs from both the OLS regression (\$221,680.70) and the LASSO regression (\$221,456.60). Like LASSO, Ridge adds a regularization penalty, but it uses an \( L_2 \) norm, which shrinks all coefficients toward zero without eliminating any of them entirely. As a result, all predictors remain in the model, albeit with smaller magnitudes.
+
+The fitted Ridge regression equation is:
+
+\begin{align*}
+\widehat{\text{price}}('000) = & -907.28 -30.98(\text{bedrooms}) + 59.96(\text{bathrooms}) + 0.13(\text{sqft}\_\text{living}) \\
+& + 15.42(\text{floors}) + 562.40(\text{waterfront}) + 50.55(\text{view}) + 18.27(\text{condition}) \\
+& + 104.77(\text{grade}) + 0.029(\text{sqft}\_\text{above}) + 0.036(\text{sqft}\_\text{living15}) \\
+& - 0.0005(\text{sqft}\_\text{lot15}) + 2.94(\text{house}\_\text{age}) + 0.47(\text{age}\_\text{renovated})
+\end{align*}
+  
+Unlike LASSO, Ridge regression retains all features in the model, including those that were dropped in the LASSO solution such as `sqft_lot` and `sqft_above`. Although this may be beneficial in settings where all variables are expected to carry some predictive value, the slightly higher RMSE and retained complexity suggest that Ridge may not be the most effective regularization technique in this case. Further exploration with non-linear models may help uncover deeper patterns in the data.
+
+### Lift chart
+To further evaluate model performance, we compared the OLS, LASSO, and Ridge regression models using a lift chart.
+
+```{r, echo=FALSE, results='hide'}
+library(gains)
+#  Lift chart for mlr2
+gain.mlr2 <- gains(test.data$price, yhat) # creates the cumulative gain chart
+gain.mlr2
+
+# Lift chart for step_kcv model
+gain.step_kcv <- gains(test.data$price, step_preds) # creates the cumulative gain chart
+gain.step_kcv
+
+# Create Lift chart
+gain.lasso <- gains(test.data$price, yhat.lasso) # creates the cumulative gain chart
+gain.lasso
+
+# Create Lift chart
+gain.ridge <- gains(test.data$price, yhat.ridge) # creates the cumulative gain chart
+gain.ridge
+```
+
+```{r, echo=FALSE, fig.align='center', fig.cap="Lift Chart for Linear Regression Models", out.width="50%", fig.pos='H'}
+x <- c(0, gain.mlr2$depth) 
+
+# Compute Percent Cumulative Response
+pred.y.lm <- c(0, gain.mlr2$cume.pct.of.total)
+pred.y.step <- c(0, gain.step_kcv$cume.pct.of.total)
+pred.y.lasso <- c(0, gain.lasso$cume.pct.of.total)
+pred.y.rigde <- c(0, gain.ridge$cume.pct.of.total)
+# Compute Random Model Baseline
+avg.y <- c(0, gain.mlr2$depth / 100)
+
+# Create Lift Chart for All Three Models
+plot(x, pred.y.lm, main = "Cumulative Lift Chart", xlab = "Deciles", 
+     ylab = "Percent Cumulative Response", type = "l", col = "blue", 
+     cex.lab = 1.5, lwd = 2, ylim = c(0, max(pred.y.lm, pred.y.step, pred.y.lasso)))
+
+# Add Stepwise Model Lift Curve
+lines(x, pred.y.step, type = "l", col = "green", lwd = 2)
+
+# Add Lasso Model Lift Curve
+lines(x, pred.y.lasso, type = "l", col = "red", lwd = 2)
+
+# Add ridge Model Lift Curve
+lines(x, pred.y.rigde, type = "l", col = "orange", lwd = 2)
+
+# Add Random Model Baseline
+lines(x, avg.y, type = "l", col = "black", lwd = 2, lty = 2)
+
+# Add a Legend
+legend("bottomright", legend = c("LM Model", "Stepwise KCV", "Lasso", "Ridge", "Random Model"),
+       col = c("blue", "green", "red","pink", "black"), lwd = 2, lty = c(1,1,1,2))
+
+```
+
+In our analysis, the three models—OLS, LASSO, and Ridge—performed **identically** in terms of lift. This is reflected in the lift chart, where all three model curves are **perfectly overlaid** behind the (yellow) line, indicating no substantial difference in their ability to rank-order predicted house prices.
+
+This reinforces our earlier observations based on RMSE: while each model has subtle structural differences, their predictive power and ranking ability on this dataset are essentially equivalent.
+
+
+
+## K-Nearest Neighbor (KNN)
+
+```{r, echo=FALSE, results='hide'}
+set.seed(0)
+train_control <- trainControl(method = "cv", 
+                              number = 10) 
+
+tg <- data.frame(k = seq(1,20,2))
+Knn_kcv <- train(price ~ ., data = training.data, method = "knn",
+                 trControl = train_control, preProcess = c("center","scale"),
+                 tuneGrid = tg, metric = "RMSE")
+print(Knn_kcv)
+```
+
+```{r, echo=FALSE, out.width="50%", fig.align='center', fig.cap="Cross-validation for KNN", fig.pos='H'}
+plot(Knn_kcv)
+```
+
+```{r, echo=FALSE, results='hide'}
+Knn_kcv$finalModel
+```
+
+The final model used was a 7-nearest neighbor regression model.
+
+```{r, echo=FALSE, results='hide'}
+training.scaled <- scale(training.data[,-1], center = TRUE, scale = TRUE)
+training.scaled.wY <- cbind(training.scaled, training.data[,1])
+training.scaled.attr <- attributes(training.scaled)
+test.scaled <- scale(test.data[,-1], 
+                     center = training.scaled.attr$`scaled:center`, 
+                     scale = training.scaled.attr$`scaled:scale`)
+```
+
+
+```{r, echo=FALSE, results='hide'}
+library(FNN)
+Knn <- knn.reg(train = training.scaled , test = test.scaled,
+               y = training.scaled[,1], k = 7)
+# RMSE for test data
+error.test.knn <- Knn$pred - test.data$price
+rmse.test.knn <- sqrt(mean(error.test.knn^2))
+rmse.test.knn
+```
+
+K-NN performed really poorly in terms of test RMSE ($\$659,129.90$), compared to the regression based models where the test RMSES were around ($\sim\$220,000$). This is due to the fact that K-NN uses distance metrics (usually Euclidean) to find the "nearest" neighbors. Due to the high-dimensionality of our data (with many housing features), distances become less meaningful due to the curse of dimensionality.
+
+## Tree-Based Models
+
+### Regression Tree
+
+```{r, echo=FALSE, results='hide'}
+library(rpart)
+library(rpart.plot)
+library(caret)
+set.seed(0)
+options(scipen = 999) 
+train_control <- trainControl(method="cv", number=10)
+cv.ct <- train(price ~ . , data = training.data, method = "rpart",
+               trControl = train_control, tuneLength = 10)
+print(cv.ct)
+cv.ct$finalModel
+```
+
+```{r, echo=FALSE, fig.cap="Regression Tree for house prices", fig.align='center', out.width="70%", fig.pos='H'}
+prp(cv.ct$finalModel, type = 1, extra = 1, under = TRUE, split.font = 2, varlen = -10)
+#dev.copy2pdf(file = "E:/Data mining/Lecture Notes/plots/rt2.pdf")
+```
+
+```{r, echo=FALSE, results='hide'}
+# get prediction on the test data
+pred.test = predict(cv.ct$finalModel, test.data)
+# get MSE on test data
+rmse_test_prune <- sqrt(mean((test.data$price - pred.test)^2))
+rmse_test_prune
+```
+
+Regression tree performed similarly (test RMSE = $\$248,301.80$), to OLS, Lasso and Ridge regression.
+
+### Bagging (Bootstrap Aggregating) and Random Forest
+
+```{r, echo=FALSE, results='hide'}
+library(caret)
+set.seed(0)
+modelLookup("treebag")
+train_control <- trainControl(method="cv", number=10,savePredictions = "final")
+## specify nbagg to control the number of trees. default value is 25 
+bag <- train(price ~ . , data = training.data, method = "treebag",
+             trControl = train_control, nbagg = 50)
+print(bag)
+```
+
+```{r, echo=FALSE, results='hide'}
+
+####################################
+###### Random Forest ###############
+####################################
+
+
+library(caret)
+set.seed(0)
+modelLookup("rf")
+train_control <- trainControl(method="cv", number=10, savePredictions = "final")
+rf <- train(price ~ . , data = training.data, method = "rf",
+            trControl = train_control, tuneLength = 1)
+```
+
+```{r, echo=FALSE, fig.ncol=2, out.width="50%", fig.align='center', fig.pos='H', fig.cap="Variable Importance Plots", fig.subcap=c("Bagging", "Random Forest")}
+plot(varImp(bag))
+plot(varImp(rf))
+```
+
+
+```{r, echo=FALSE, results='hide'}
+# get prediction on the test data
+pred.test = predict(rf$finalModel, test.data)
+
+# get MSE on test data
+rmse_test.rf <- sqrt(mean((test.data$price - pred.test)^2))
+rmse_test.rf
+```
+
+The Bagging model not only improved prediction accuracy but also provided insight into the most influential predictors of house prices, as measured by their relative importance in reducing prediction error across the ensemble of trees.
+
+The most important variable was `sqft_living`, which was standardized to a relative importance score of **100**. This indicates that the size of the living area is the most consistent and powerful predictor of house price across all bootstrap samples. Following that, `grade` (86.88) and `bathrooms` (51.30) were also highly influential, suggesting that both the quality rating of the home and the number of bathrooms substantially affect price.
+
+Other notable predictors include `sqft_above` (49.62), `view` (41.00), and `sqft_living15` (39.84), all of which capture aspects of house size, aesthetics, or surrounding features. Interestingly, `house_age` (36.43) and `waterfront` presence (30.12) also contributed significantly, further emphasizing the impact of both structural age and location on valuation.
+
+Less influential variables included `age_renovated` (19.73) and `sqft_lot` (5.19), the latter of which consistently ranked low across previous models as well. These results highlight how Bagging helps identify the core set of variables driving house prices while mitigating overfitting by averaging over many decision trees.
+
+```{r, echo=FALSE, results='hide'}
+# get prediction on the test data
+pred.test = predict(bag, test.data)
+
+# get MSE on test data
+rmse_test.bag <- sqrt(mean((test.data$price - pred.test)^2))
+rmse_test.bag
+
+```
+
+The test RMSE for the Bagging model was approximately \$227,448.70, which is slightly **higher** than the test RMSEs from the linear models. Despite its strength in reducing variance and capturing complex patterns, Bagging did not outperform the simpler linear models in this case. This could be due to the fact that the relationship between the predictors and the house price is relatively linear, and thus, linear models may suffice.
+
+Nonetheless, Bagging provided valuable insights into variable importance, confirming that `sqft_living`, `grade`, and `number of bathrooms` are among the most critical predictors of house price. These variables consistently appeared as top contributors across all models, reinforcing their strong relationship with the response variable.
+
+Random forest test RMSE was approximately \$185,096.60, which is much **lower** than the test RMSEs from the linear models and an improvement over Bagging. The model identified similar most important variables (`sqft_living` and `grade`) with `grade` now having a higher importance score of 100 compared to 86.9 from Bagging.
+
+
+## Clustering Results
+
+### Hierarchical Clustering
+We would use the variables selected by the Lasso regression to create a dendogram for the clusters.In addition, we employed "Ward's linkage" because unlike single/complete linkage, which are highly sensitive to outliers, Ward’s method is less sensitive to outliers and focuses on overall structure, not just nearest neighbors.
+
+```{r, echo=FALSE, fig.cap="Hierarchical Clustering", fig.align='center', fig.pos='H', out.width="50%", fig.subcap=c("Dendogram based on Ward Linkage", "Clustering of Houses based on Location"), fig.ncol=2}
+# Select relevant numeric features
+hc_data <- king_data %>%select(price, sqft_living, bedrooms, bathrooms, floors, house_age, view, sqft_living15, condition, grade, sqft_lot15)
+
+# Scale the data
+hc_scaled <- scale(hc_data)
+
+# Compute distance matrix and hierarchical clustering
+dist_matrix <- dist(hc_scaled)
+hc_model <- hclust(dist_matrix, method = "ward.D2")
+
+# Plot dendrogram
+plot(hc_model, main = "", xlab = "", sub = "", labels = FALSE)
+
+# Cut tree into 3 clusters
+hc_clusters <- cutree(hc_model, k = 3)
+king_data$hc_cluster <- as.factor(hc_clusters)
+rect.hclust(hc_model, k = 3, border = "red")
+
+ggplot(king_data, aes(x = long, y = lat, color = hc_cluster)) +
+  geom_point(alpha = 0.6) +
+  labs(title = "", x = "Longitude", y = "Latitude") 
+```
+
+```{r, echo=FALSE}
+knitr::kable(king_data %>%
+               group_by(hc_cluster) %>%
+               summarise(across(c(price, sqft_living, bedrooms, bathrooms, house_age), 
+                                list(mean = mean), .names = "{.col}_{.fn}")), 
+             caption = "Cluster Profile based on Hierarchical clustering")
+```
+
+The dendogram suggests that 3 clusters (types) of houses exists in the King County region.
+
+- **Cluster 1 (small older houses)**: These are the most modest in size and price. The average house price is approximately $\$429k$, with an average living space of 1,688 square feet. These homes typically have 3 bedrooms and 1.7 bathrooms, and are about 58 years old, suggesting they were built or last renovated several decades ago.
+- **Cluster 2 (expensive large-size, mid-age house)**: This group includes the most expensive and spacious homes. The average price is roughly $\$919k$, and the average living area is around 3,235 square feet. These houses typically feature 4 bedrooms and nearly 3 bathrooms, and are about 30 years old, indicating they are relatively modern, possibly in affluent areas such as Seattle or near waterfronts.
+- **Cluster 3 (moderate-size, fairly new house)**: Homes in this group strike a balance between size and affordability. They have an average price of $\$441k$ and a living area of 1,936 square feet. With around 3 bedrooms and 2.4 bathrooms, these are the newest on average, with a mean age of 14 years, making them attractive for buyers seeking more recent builds at a moderate price.
+
+
+### K-Means Clustering
+We use the number of $k=3$ from the heirarchical clustering results to run a KMeans algorithm:
+```{r, echo=FALSE, fig.cap="K-Means Clustering of Houses based on Location", fig.align='center', fig.pos='H', out.width="80%"}
+set.seed(123)
+kmeans_model <- kmeans(hc_scaled, centers = 3, nstart = 50)
+king_data$kmeans_cluster <- as.factor(kmeans_model$cluster)
+
+ggplot(king_data, aes(x = long, y = lat, color = kmeans_cluster)) +
+  geom_point(alpha = 0.6) +
+  labs(title = "", x = "Longitude", y = "Latitude") 
+```
+
+```{r, echo=FALSE}
+knitr::kable(king_data %>%
+               group_by(kmeans_cluster) %>%
+               summarise(across(c(price, sqft_living, bedrooms, bathrooms, house_age), 
+                                list(mean = mean), .names = "{.col}_{.fn}")),
+             caption = "Cluster Profile based on K-Means clustering")
+
+```
+
+- **Cluster 1 (small older houses)**: These homes are generally more affordable and compact. The average house price is approximately $\$406k$, with an average living area of 1,552 square feet. They typically offer 3 bedrooms and 1.6 bathrooms, and are the oldest group, averaging 62 years in age—indicating many of these homes may benefit from renovation or modernization.
+- **Cluster 2 (moderate-size, newer house)**: This cluster represents homes with a good blend of size, modernity, and affordability. The average price is around $\$497k$, and the average size is 2,218 square feet. These homes generally have 3.5 bedrooms, 2.5 bathrooms, and are about 22 years old, suggesting they are relatively recent builds, possibly situated in suburban developments with good resale value.
+- **Cluster 3 (expensive large-size, fairly new premium house)**: Homes in this cluster are spacious, high-end, and expensive, with an average price of approximately $\$1.13M$ — nearly triple that of Cluster 1. These homes average 3,604 square feet in size, come with 4 bedrooms and 3 bathrooms, and are about 32 years old. Their scale and price suggest they may be located in sought-after neighborhoods like Bellevue or waterfront areas, aligning with patterns often observed in premium market segments.
+
+
+### Model-Based Clustering 
+Model-based clustering assumes data is generated from a mixture of Gaussian distributions. It automatically selects the best number of clusters using BIC.
+```{r, echo=FALSE, results='hide'}
+# install.packages("mclust")
+library(mclust)
+
+set.seed(123)
+# Fit model-based clustering
+mclust_model <- Mclust(hc_scaled)
+
+# Summary of best model
+sm = summary(mclust_model)
+```
+
+```{r, echo=FALSE}
+knitr::kable(t(round(sm$pro*dim(hc_scaled)[1],0)), caption = "Mclust number of observations per cluster")
+# Add cluster to data
+king_data$mclust_cluster <- as.factor(mclust_model$classification)
+```
+
+```{r, echo=FALSE, fig.cap="Model-based Clustering of Houses based on Location", fig.align='center', fig.pos='H', out.width="70%"}
+ggplot(king_data, aes(x = long, y = lat, color = mclust_cluster)) +
+  geom_point(alpha = 0.6) +
+  labs(title = "", x = "Longitude", y = "Latitude")
+```
+
+```{r, echo=FALSE}
+knitr::kable(king_data %>%
+               group_by(mclust_cluster) %>%
+               summarise(across(c(price, sqft_living, bedrooms, bathrooms, house_age), 
+                                list(mean = mean), .names = "{.col}_{.fn}")),
+             caption = "Cluster Profile based on Model-based clustering")
+
+```
+
+The model-based clustering identified 9 distinct segment of homes in the King County region based on housing characteristics. These clusters capture meaningful variations in price, size, layout, and age of the properties. Below is a summary of the key characteristics of each group:
+
+- **Cluster 1 (expensive, large mid-age homes)**: Homes in this group have an average price of $\$928k$ and 2,800 sqft of living space, with around 3.6 bedrooms, 2.5 bathrooms, and are typically 51 years old. Likely located in desirable neighborhoods with upgraded features.
+- **Cluster 2 (moderate-price, mid-size homes)**: Averaging $\$481k$, these homes offer 2,253 sqft, 3.3 bedrooms, and 2 bathrooms, with an average age of 47 years. They strike a balance between size and affordability.
+- **Cluster 3 (small, older homes)**: The most affordable group, priced at $\$333k$ on average. These homes are compact (989 sqft), with 2 bedrooms, 1 bathroom, and are the oldest, averaging 74 years in age.
+- **Cluster 4 (large, newer homes)**: High-value properties averaging $\$704k$ and 3,007 sqft, with 3.8 bedrooms, 2.8 bathrooms, and a relatively young average age of 24 years. Likely to feature modern designs and amenities.
+- **Cluster 5 (mid-size, newer homes)**: With an average price of $\$479k$, these homes have 2,279 sqft, 3.5 bedrooms, 2.5 bathrooms, and are relatively new at 14 years old, suggesting recent construction or renovation.
+- **Cluster 6 (premium homes)**: The most expensive cluster with homes averaging $\$1.09M$, 3,094 sqft, 3.5 bedrooms, 2.6 bathrooms, and around 43 years old. Likely reflects upscale, well-maintained properties in prime areas.
+- **Cluster 7 (affordable mid-size older homes)**: Priced around $\$471k$, these homes have 1,705 sqft, 3.3 bedrooms, 1.7 bathrooms, and are 66 years old on average — possibly older suburban developments.
+- **Cluster 8 (mid-size, mid-age homes)**: Averaging $\$555k$, these homes offer 2,047 sqft, 3.5 bedrooms, and 2.3 bathrooms, with an average age of 38 years. Mid-range options with potential for value appreciation..
+- **Cluster 9 (affordable, moderate-size, mid-age homes)**: With a price tag of $\$352k$, these houses have 1,526 sqft, 3 bedrooms, 1.6 bathrooms, and are 47 years old. These might represent entry-level homes in stable, older neighborhoods.
+
+This clustering reveals distinct market niches—from compact vintage homes to spacious newer builds. Notably, price is not solely driven by size, but also by age and likely location, which clustering helps reveal. 
+
+For instance, Cluster 1 and Cluster 6 have similarly high price points (around $\$928k$ and $\$1.09M$, respectively), yet differ in both size and age — Cluster 6 homes are slightly larger (3,093 sqft vs. 2,800 sqft) but somewhat newer (43 vs. 51 years), potentially reflecting premium locations or renovations. On the other hand, Cluster 3 contains the smallest and oldest homes (988 sqft, 74 years old) with the lowest average price of $\$332k$, indicating a budget-friendly segment. Meanwhile, Cluster 5 stands out as the youngest cluster (only $\sim$ 14 years old), yet maintains a moderate price point of $479k, appealing to value-conscious buyers seeking newer construction without the premium of upscale neighborhoods.
+
+
+# Discussion and Conclusion
+
+This study explored various data mining techniques to model and understand house prices in King County, Washington. The analysis combined both supervised learning (regression models) and unsupervised learning (clustering techniques) to gain insights from the housing dataset.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{l|r}
+\hline
+\textbf{Model} & \textbf{Test RMSE} \\
+\hline
+Multiple Linear Regression & \$221{,}680.80 \\
+Stepwise Variable Selection & \$221{,}470.80 \\
+LASSO Regression & \$221{,}456.60 \\
+Ridge Regression & \$222{,}700.40 \\
+\textcolor{red}{K-Nearest Neighbors (K-NN)} & \textcolor{red}{\$659{,}129.90} \\
+Regression Tree & \$248{,}301.80 \\
+Bagging & \$227{,}448.70 \\
+\textcolor{green}{Random Forest} & \textcolor{green}{\$184{,}928.30} \\
+\hline
+\end{tabular}
+\caption{Comparison of Test RMSE Across supervised learning Models}
+\end{table}
+
+## Key Findings
+
+Among the models evaluated, Random Forest Regression emerged as the best-performing model in terms of predictive accuracy, achieving a test RMSE of approximately $\sim\$184,000$. This performance significantly outperformed simpler models like k-Nearest Neighbors (K-NN), which had a test RMSE exceeding $659,000, likely due to the sensitivity of KNN to high-dimensional spaces and lack of model interpretability.
+
+The Bagging approach, as an ensemble method, also performed robustly, reducing variance and improving stability over single regression trees. Regression Trees alone provided interpretable decision rules, highlighting key split points (e.g., sqft_living and grade), but they lacked the predictive strength of ensemble methods.
+
+On the unsupervised front, hierarchical clustering using Ward's linkage revealed meaningful groupings in the housing data. Ward's method was particularly effective due to its ability to create compact, spherical clusters by minimizing within-cluster variance. This allowed for a more balanced and interpretable cluster structure compared to other linkage methods such as single or complete linkage, which are more sensitive to outliers or chaining effects. The insights from Model-based clustering highlight how the method uncovers hidden patterns, offering a nuanced, data-driven view of housing submarkets across King County.
+
+## Limitations
+Several limitations impacted the analysis:
+
+* **Computational Cost:** The Random Forest model, while accurate, required significant computation time, especially with a large number of trees and features. Similarly, hierarchical clustering—particularly with Ward's method—required computing a full distance matrix, which can be computationally intensive with larger datasets like ours.
+
+* **Data Constraints:** The dataset is cross-sectional and limited to homes sold in a specific period. Important temporal dynamics such as seasonality, market trends, or future changes in housing value could not be captured.
+
+* **Model Assumptions:** Some models (e.g., linear regression) rely on assumptions such as linearity, homoscedasticity, and independence of errors, which may not fully hold in this context.
+
+* **Feature Limitations:** Some potentially impactful variables like neighborhood amenities, school district quality were not available in the dataset.
+
+## Recommendations and Future Directions
+Based on the findings, several avenues for future work are recommended:
+
+* **Time Series Forecasting:** Incorporating temporal dynamics into the analysis through time series models would provide better understanding of market trends and future price movements.
+
+* **Spatial Modeling:** Given the importance of location in real estate, spatial models could better capture locational effects.
+
+* **Enhanced Feature Engineering:** Incorporating domain-specific features or using external datasets (e.g., school ratings, proximity to public transport) could improve model accuracy and interpretability.
+
+
+# Appendix/Supplementary Materials
+
+* **Data Structure**
+```{r, echo=FALSE}
+# Read Data Into R
+king_data = read.csv("../data/kc_house_data.csv")
+
+# View the structure of the data
+dim(king_data) # number of observations and variables
+str(king_data)
+
+# Make Waterfront a categorical variable with 0="No waterfront" and 1="Waterfront"
+king_data$waterfront = as.factor(king_data$waterfront)
+levels(king_data$waterfront) = c("No", "Yes")
+```
+
+* **Check for Missing data**
+```{r, echo=FALSE}
+# Check for missing values
+colSums(is.na(king_data))
+```
+
+* **Check for Anomalies**
+```{r, echo=FALSE}
+# Convert date to proper Date format
+king_data$date <- as.Date(king_data$date, format = "%Y%m%d")
+
+# Check for anomalies with date of sale and year built and year renovated
+anomalies = subset(king_data[c(which(year(king_data$date)<king_data$yr_built), 
+                               which(year(king_data$date)<king_data$yr_renovated)),],
+                   select = c(id, date, price, yr_built, yr_renovated))
+
+
+knitr::kable(anomalies)
+```
+
+We noticed that there were 21 observations where the year of sale was after the year the house were built. 
+
+* **Remove anomalies, Transaction ID, and sqft_basement because of perfect correlation with sqft_living**
+```{r, echo=FALSE}
+# Remove data points with Anomalies
+king_data = king_data[-which(!is.na(match(king_data$id, anomalies$id))),]
+
+# Remove ID variable
+king_data = king_data%>%select(-c(sqft_basement,id))
+```
+
+* **Get summary of data and check for more anomalies**
+```{r, echo=FALSE}
+# Get summary of data
+summary(king_data)
+
+# View observation with Bedrooms > 10, sqft_living > 10000, sqft_lot > 1000000 for more anomalies
+knitr::kable(subset(king_data[c(which(king_data$sqft_lot>1000000),which(king_data$sqft_living>10000),
+                                which(king_data$bedrooms>10),which(king_data$price>5000000)),],
+                    select = c(date, price, bedrooms, bathrooms, sqft_living, sqft_lot, floors)))
+```
+
+We concluded that only the transaction with Bedroom = 33 was an anomaly because the house had only one floor, 1.75 bathroom and a small size of living area too. Therefore the observation was removed and we now have our final data.
+
+* **RMSE Cross-validation Plot for Lasso and Ridge Models**
+```{r, echo=FALSE, out.width="50%", fig.align='center', fig.ncol=2, fig.subcap=c("Lasso","Ridge")}
+plot(glmnet.lasso)
+plot(glmnet.ridge)
+```
+
+
+# References
