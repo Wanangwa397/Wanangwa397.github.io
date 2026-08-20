@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="King County housing price prediction and market segmentation project by Wanangwa Msiska using R, statistical modeling, machine learning, and clustering." />
+  <title>King County Housing Price Prediction | Wanangwa Msiska</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../../">Wanangwa Msiska</a>
+    <a class="back" href="../../#projects">← Back to Projects</a>
+  </header>
+
+  <main>
+    <section class="hero shell">
+      <div class="eyebrow">Machine Learning · Statistical Modeling · R</div>
+      <h1>King County Housing Price Prediction & Market Segmentation</h1>
+      <p class="lead">An end-to-end data mining analysis of 21,613 residential property sales in King County, Washington, combining predictive modeling and clustering to understand what drives home values and how the market separates into distinct segments.</p>
+      <div class="actions">
+        <a class="button primary" href="full-report.pdf" target="_blank" rel="noopener">View Full Report</a>
+        <a class="button" href="https://github.com/Wanangwa397/Wanangwa397.github.io/blob/main/projects/king-county-housing/code/king_county_housing_analysis.Rmd" target="_blank" rel="noopener">View R Code on GitHub</a>
+        <a class="button" href="#results">See Results</a>
+      </div>
+      <div class="stats">
+        <div><strong>21,613</strong><span>Property sales</span></div>
+        <div><strong>8</strong><span>Predictive approaches</span></div>
+        <div><strong>$184.9K</strong><span>Best test RMSE</span></div>
+        <div><strong>9</strong><span>Model-based segments</span></div>
+      </div>
+    </section>
+
+    <section class="shell section two-col">
+      <div>
+        <p class="section-label">Project Overview</p>
+        <h2>From raw housing records to predictive insight</h2>
+      </div>
+      <div class="prose">
+        <p>The goal was to identify the structural, locational, and historical features most associated with house prices, compare multiple predictive methods, and uncover naturally occurring housing-market segments.</p>
+        <p>The analysis included multiple linear regression, stepwise selection, LASSO, Ridge, K-nearest neighbors, regression trees, bagging, Random Forest, hierarchical clustering, K-means, and model-based clustering.</p>
+      </div>
+    </section>
+
+    <section class="shell section">
+      <p class="section-label">Workflow</p>
+      <div class="workflow">
+        <article><span>01</span><h3>Clean & Prepare</h3><p>Validated dates, recoded waterfront status, engineered age-related variables, removed implausible records, and reduced multicollinearity.</p></article>
+        <article><span>02</span><h3>Explore</h3><p>Examined distributions, correlations, geographic patterns, and relationships between price and core housing characteristics.</p></article>
+        <article><span>03</span><h3>Model</h3><p>Compared linear, regularized, nearest-neighbor, tree-based, and ensemble methods using test RMSE.</p></article>
+        <article><span>04</span><h3>Segment</h3><p>Used hierarchical, K-means, and model-based clustering to identify distinct groups of homes and submarkets.</p></article>
+      </div>
+    </section>
+
+    <section class="visual-band">
+      <div class="shell section">
+        <div class="section-head">
+          <div><p class="section-label">Exploratory Analysis</p><h2>Price patterns are strongly tied to size, quality, and location</h2></div>
+          <p>Living area and property grade emerged as the strongest correlates of price. Higher-value homes were concentrated around Seattle and waterfront areas, while waterfront homes carried a visible price premium.</p>
+        </div>
+        <figure class="figure-card">
+          <img src="assets/eda-housing-patterns.png" alt="Correlation and geographic housing price visualizations from the analysis" />
+          <figcaption>Selected exploratory visuals from the original analysis.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="shell section" id="results">
+      <div class="section-head">
+        <div><p class="section-label">Model Comparison</p><h2>Random Forest delivered the strongest predictive performance</h2></div>
+        <p>Lower RMSE is better. Random Forest reduced test error substantially relative to the linear models, while KNN performed poorly in the high-dimensional feature space.</p>
+      </div>
+
+      <div class="results-grid">
+        <div class="chart-card">
+          <div class="bar-row"><span>Random Forest</span><div class="bar"><i style="width:28%"></i></div><strong>$184.9K</strong></div>
+          <div class="bar-row"><span>LASSO</span><div class="bar"><i style="width:34%"></i></div><strong>$221.5K</strong></div>
+          <div class="bar-row"><span>Stepwise</span><div class="bar"><i style="width:34%"></i></div><strong>$221.5K</strong></div>
+          <div class="bar-row"><span>OLS</span><div class="bar"><i style="width:34%"></i></div><strong>$221.7K</strong></div>
+          <div class="bar-row"><span>Ridge</span><div class="bar"><i style="width:34%"></i></div><strong>$222.7K</strong></div>
+          <div class="bar-row"><span>Bagging</span><div class="bar"><i style="width:35%"></i></div><strong>$227.4K</strong></div>
+          <div class="bar-row"><span>Regression Tree</span><div class="bar"><i style="width:38%"></i></div><strong>$248.3K</strong></div>
+          <div class="bar-row"><span>KNN</span><div class="bar"><i style="width:100%"></i></div><strong>$659.1K</strong></div>
+        </div>
+        <div class="callout">
+          <span class="badge">Best Model</span>
+          <h3>Random Forest</h3>
+          <p class="metric">$184,928</p>
+          <p class="muted">Test RMSE</p>
+          <hr />
+          <p>Feature-importance analysis consistently highlighted <strong>living area</strong> and <strong>grade</strong> among the most influential predictors.</p>
+        </div>
+      </div>
+
+      <figure class="figure-card compact">
+        <img src="assets/model-importance.png" alt="Bagging and Random Forest variable importance charts" />
+        <figcaption>Variable importance from Bagging and Random Forest.</figcaption>
+      </figure>
+    </section>
+
+    <section class="visual-band">
+      <div class="shell section">
+        <div class="section-head">
+          <div><p class="section-label">Market Segmentation</p><h2>Clustering revealed distinct housing submarkets</h2></div>
+          <p>Hierarchical and K-means clustering produced three broad housing groups, while model-based clustering identified nine more granular segments differentiated by price, size, layout, and age.</p>
+        </div>
+        <div class="cluster-cards">
+          <article><strong>Cluster 1</strong><h3>Small, older homes</h3><p>About $406K average price, 1,552 sq. ft., and roughly 62 years old in the K-means solution.</p></article>
+          <article><strong>Cluster 2</strong><h3>Moderate, newer homes</h3><p>About $497K average price, 2,218 sq. ft., and roughly 22 years old.</p></article>
+          <article><strong>Cluster 3</strong><h3>Large premium homes</h3><p>About $1.13M average price, 3,604 sq. ft., 4 bedrooms, and 3 bathrooms.</p></article>
+        </div>
+        <div class="gallery">
+          <figure><img src="assets/hierarchical-clustering.png" alt="Hierarchical clustering dendrogram and geographic clusters" /><figcaption>Hierarchical clustering</figcaption></figure>
+          <figure><img src="assets/kmeans-clustering.png" alt="K-means geographic clustering of King County homes" /><figcaption>K-means clustering</figcaption></figure>
+          <figure><img src="assets/model-based-clustering.png" alt="Model-based clustering map showing nine segments" /><figcaption>Model-based clustering</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell section">
+      <div class="section-head">
+        <div><p class="section-label">Key Findings</p><h2>What the analysis showed</h2></div>
+      </div>
+      <div class="findings">
+        <article><span>01</span><p><strong>Living area and grade were consistently important.</strong> Both appeared among the strongest price drivers across exploratory and ensemble analyses.</p></article>
+        <article><span>02</span><p><strong>Nonlinear modeling improved prediction.</strong> Random Forest achieved the lowest test RMSE of the evaluated approaches.</p></article>
+        <article><span>03</span><p><strong>Location mattered.</strong> Higher prices were concentrated around Seattle and waterfront areas.</p></article>
+        <article><span>04</span><p><strong>The market was not homogeneous.</strong> Clustering uncovered groups ranging from compact older homes to large premium properties.</p></article>
+      </div>
+    </section>
+
+    <section class="shell section limitations">
+      <div><p class="section-label">Limitations & Next Steps</p><h2>Where the analysis could go next</h2></div>
+      <div class="prose">
+        <p>The dataset covers a fixed historical sales period and does not include potentially important external factors such as school quality and neighborhood amenities. Some modeling approaches also carry computational or statistical assumptions that may limit performance.</p>
+        <p>Future work could extend the project with time-series forecasting, spatial modeling, richer feature engineering, and external datasets such as school ratings or proximity to public transportation.</p>
+      </div>
+    </section>
+
+    <section class="shell section closing">
+      <p class="section-label">Full Analysis</p>
+      <h2>Want the statistical detail?</h2>
+      <p>The complete report contains methodology, equations, diagnostics, model outputs, cluster profiles, limitations, and supplementary R output.</p>
+      <a class="button primary" href="full-report.pdf" target="_blank" rel="noopener">Open Full PDF Report</a>
+    </section>
+  </main>
+
+  <footer class="shell footer">© 2026 Wanangwa Msiska · Data Analytics Portfolio</footer>
+</body>
+</html>
