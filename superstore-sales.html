@@ -1,0 +1,411 @@
+from pathlib import Path
+
+html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Superstore Sales Analytics | Wanangwa Msiska</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1f2937;
+      background: #ffffff;
+      line-height: 1.6;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #1e3a5f);
+      color: white;
+      padding: 60px 30px;
+    }
+
+    .hero-inner,
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: #dbeafe;
+      text-decoration: none;
+      font-weight: bold;
+      margin-bottom: 24px;
+    }
+
+    .back-link:hover {
+      color: #f2c811;
+    }
+
+    h1 {
+      font-size: 44px;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      max-width: 850px;
+      color: #cbd5e1;
+      font-size: 18px;
+      margin-bottom: 24px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 20px;
+      padding: 7px 13px;
+      font-size: 14px;
+    }
+
+    .container {
+      padding: 55px 30px 80px;
+    }
+
+    .section {
+      margin-bottom: 50px;
+    }
+
+    .section h2 {
+      font-size: 30px;
+      color: #0f172a;
+      margin-bottom: 14px;
+    }
+
+    .section p {
+      color: #4b5563;
+      max-width: 930px;
+      margin-bottom: 14px;
+    }
+
+    .dashboard-image {
+      width: 100%;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      display: block;
+      margin-top: 20px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .kpi-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 22px;
+      background: #f8fafc;
+    }
+
+    .kpi-card h3 {
+      color: #64748b;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-size: 28px;
+      font-weight: bold;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .positive {
+      color: #15803d;
+      font-weight: bold;
+    }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .insight-card {
+      border-left: 5px solid #16a34a;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 22px;
+    }
+
+    .insight-card h3 {
+      color: #0f172a;
+      margin-bottom: 8px;
+      font-size: 19px;
+    }
+
+    .insight-card p {
+      margin: 0;
+    }
+
+    .takeaway {
+      background: #fffbea;
+      border: 1px solid #fde68a;
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .takeaway strong {
+      color: #92400e;
+    }
+
+    .pdf-preview {
+      width: 100%;
+      height: 760px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 12px 20px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      border-radius: 7px;
+      font-weight: bold;
+    }
+
+    .button:hover {
+      background: #1d4ed8;
+    }
+
+    @media (max-width: 700px) {
+      h1 {
+        font-size: 34px;
+      }
+
+      .hero {
+        padding: 45px 22px;
+      }
+
+      .container {
+        padding: 40px 22px 60px;
+      }
+
+      .pdf-preview {
+        height: 560px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <a class="back-link" href="index.html">← Back to Portfolio</a>
+
+      <h1>Superstore Sales Analytics</h1>
+
+      <p class="subtitle">
+        Power BI analysis of Superstore sales, profit, returns, product profitability,
+        geographic performance, customer segments, and year-over-year business trends.
+      </p>
+
+      <div class="tags">
+        <span class="tag">Power BI</span>
+        <span class="tag">DAX</span>
+        <span class="tag">Power Query</span>
+        <span class="tag">Data Modeling</span>
+        <span class="tag">Sales Analytics</span>
+        <span class="tag">Business Intelligence</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <section class="section">
+      <h2>Dashboard</h2>
+      <p>
+        The dashboard tracks current performance against the previous year and
+        combines KPI monitoring with product, geographic, segment, and time-series analysis.
+      </p>
+
+      <img
+        src="superstore-sales-thumbnail.png"
+        alt="Superstore Sales Analytics Power BI dashboard"
+        class="dashboard-image"
+      >
+    </section>
+
+    <section class="section">
+      <h2>Performance Analysis</h2>
+
+      <div class="kpi-grid">
+
+        <div class="kpi-card">
+          <h3>Sales</h3>
+          <div class="kpi-value">$2.33M</div>
+          <div class="positive">+47.16% vs PY</div>
+        </div>
+
+        <div class="kpi-card">
+          <h3>Profit</h3>
+          <div class="kpi-value">$292.30K</div>
+          <div class="positive">+48.85% vs PY</div>
+        </div>
+
+        <div class="kpi-card">
+          <h3>Returned Orders</h3>
+          <div class="kpi-value">5.79%</div>
+          <div class="positive">Down 2.95 percentage points</div>
+        </div>
+
+        <div class="kpi-card">
+          <h3>Approx. Profit Margin</h3>
+          <div class="kpi-value">12.5%</div>
+          <div>Based on displayed sales and profit KPIs</div>
+        </div>
+
+      </div>
+
+      <div class="takeaway">
+        <strong>Overall result:</strong>
+        Sales and profit both increased sharply year over year, while the returned-order
+        rate declined. Profit grew slightly faster than sales, indicating that growth was
+        not achieved at the expense of profitability.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Key Business Insights</h2>
+
+      <div class="insight-grid">
+
+        <div class="insight-card">
+          <h3>1. Strong Year-over-Year Growth</h3>
+          <p>
+            Sales increased from $1.58M to $2.33M, a 47.16% increase. Profit rose
+            from $196.37K to $292.30K, or 48.85%. Because profit growth slightly
+            exceeded sales growth, the business maintained a healthy level of
+            profitability while expanding revenue.
+          </p>
+        </div>
+
+        <div class="insight-card">
+          <h3>2. Returns Improved Materially</h3>
+          <p>
+            The returned-order rate fell from 8.74% to 5.79%, a decline of
+            2.95 percentage points. That is roughly a one-third reduction relative
+            to the previous-year return rate, which is a meaningful operational improvement.
+          </p>
+        </div>
+
+        <div class="insight-card">
+          <h3>3. Product Profitability Is Uneven</h3>
+          <p>
+            Copiers are the strongest profit contributor at about $56.09K.
+            Tables are the largest loss-making product group at approximately
+            -$17.75K. Bookcases and Supplies also appear slightly unprofitable,
+            suggesting that category-level pricing, discounting, or cost structure
+            deserves closer review.
+          </p>
+        </div>
+
+        <div class="insight-card">
+          <h3>4. Technology Drives Profit</h3>
+          <p>
+            The Technology category contains several of the strongest profit
+            contributors, including Copiers, Phones, and Accessories. This makes
+            Technology an important area for revenue protection and growth planning.
+          </p>
+        </div>
+
+        <div class="insight-card">
+          <h3>5. Sales Are Concentrated by Segment</h3>
+          <p>
+            The largest customer segment accounts for 50.3% of sales, while the
+            other two segments contribute 30.8% and 18.9%. More than half of sales
+            therefore come from a single segment, making that group particularly
+            important to overall performance.
+          </p>
+        </div>
+
+        <div class="insight-card">
+          <h3>6. Sales Trend Is Positive but Volatile</h3>
+          <p>
+            Monthly sales fluctuate considerably, but the later periods show
+            repeated high points above earlier levels. The current-year series
+            also frequently runs above the previous-year comparison, supporting
+            the strong overall year-over-year growth shown by the KPI cards.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Business Recommendations</h2>
+      <p>
+        The analysis suggests protecting the strongest Technology product lines,
+        investigating losses in Tables and other weak product groups, and continuing
+        the operational practices that contributed to the lower return rate. The
+        concentration of sales in the largest segment also makes segment retention
+        and targeted growth important areas for future analysis.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Interactive Report Features</h2>
+      <p>
+        The report includes filters for Customer Name, Country/Region, Segment,
+        and date range, allowing users to narrow the analysis and examine performance
+        for specific customer groups and time periods.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Full Power BI Report</h2>
+      <p>
+        View the exported Power BI report below or open the PDF in a separate tab.
+      </p>
+
+      <iframe
+        class="pdf-preview"
+        src="Supertore Analytics.pdf">
+      </iframe>
+
+      <br>
+
+      <a
+        class="button"
+        href="Supertore Analytics.pdf"
+        target="_blank"
+        rel="noopener noreferrer">
+        Open Full PDF
+      </a>
+    </section>
+
+  </main>
+
+</body>
+</html>
+"""
+
+out = Path("/mnt/data/superstore-sales.html")
+out.write_text(html, encoding="utf-8")
+print(f"Created {out}")
