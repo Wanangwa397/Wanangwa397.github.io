@@ -119,6 +119,7 @@
     }
 
     /* STANDARD PROJECT GRID */
+
     .project-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -126,6 +127,7 @@
     }
 
     /* POWER BI - 4 PROJECTS PER ROW */
+
     .powerbi-section .project-grid {
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
@@ -150,6 +152,7 @@
     }
 
     /* Standard thumbnails */
+
     .project-thumbnail {
       width: 100%;
       height: 230px;
@@ -159,12 +162,14 @@
       border-bottom: 1px solid #e2e8f0;
     }
 
-    /* Slightly shorter thumbnails for 4-column Power BI cards */
+    /* Power BI thumbnails */
+
     .powerbi-section .project-thumbnail {
       height: 180px;
     }
 
-    /* WMU thumbnail - show the ENTIRE banner */
+    /* WMU thumbnail - show entire banner */
+
     .wmu-thumbnail {
       width: 100%;
       height: auto;
@@ -175,12 +180,11 @@
     }
 
     .project-content {
-      padding: 28px 30px 30px;
+      padding: 24px 26px 27px;
     }
 
-    /* Slightly tighter Power BI cards */
     .powerbi-section .project-content {
-      padding: 22px 22px 25px;
+      padding: 20px 20px 23px;
     }
 
     .powerbi-card {
@@ -201,7 +205,7 @@
       font-weight: bold;
       padding: 6px 12px;
       border-radius: 20px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .powerbi-label {
@@ -220,22 +224,14 @@
     }
 
     .project-card h3 {
-      margin-bottom: 10px;
+      margin-bottom: 14px;
       font-size: 22px;
       color: #0f172a;
+      line-height: 1.3;
     }
 
     .powerbi-section .project-card h3 {
       font-size: 20px;
-    }
-
-    .project-card p {
-      color: #64748b;
-      margin-bottom: 20px;
-    }
-
-    .powerbi-section .project-card p {
-      font-size: 15px;
     }
 
     .project-card a {
@@ -257,12 +253,6 @@
 
     .project-card a:hover {
       text-decoration: underline;
-    }
-
-    .coming-soon {
-      color: #94a3b8;
-      font-size: 14px;
-      font-style: italic;
     }
 
     .contact-section {
@@ -338,6 +328,7 @@
     }
 
     /* TABLET */
+
     @media (max-width: 1000px) {
       .powerbi-section .project-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -345,6 +336,7 @@
     }
 
     /* MOBILE */
+
     @media (max-width: 600px) {
       .powerbi-section .project-grid {
         grid-template-columns: 1fr;
@@ -381,7 +373,6 @@
         height: 200px;
       }
 
-      /* Keep full WMU image on mobile too */
       .wmu-thumbnail {
         height: auto;
       }
@@ -484,12 +475,6 @@
               Student Performance Analysis
             </h3>
 
-            <p>
-              Analysis of student academic performance, grade patterns,
-              and performance trends using interactive visualizations
-              and key performance indicators.
-            </p>
-
             <a href="student-performance.html">
               View Project →
             </a>
@@ -523,12 +508,6 @@
             <h3>
               Sales Performance Analysis
             </h3>
-
-            <p>
-              Sales performance dashboard analyzing revenue, orders,
-              customers, product performance, sales channels, geographic
-              trends, courier performance, and product returns.
-            </p>
 
             <a href="sales-performance.html">
               View Project →
@@ -564,12 +543,6 @@
               Superstore Sales Analytics
             </h3>
 
-            <p>
-              Superstore sales dashboard analyzing year-over-year sales and profit,
-              returned orders, product profitability, geographic performance,
-              customer segments, and key business trends.
-            </p>
-
             <a href="superstore-sales.html">
               View Project →
             </a>
@@ -603,12 +576,6 @@
             <h3>
               Financial Performance Analysis
             </h3>
-
-            <p>
-              Financial performance dashboard analyzing revenue, expenses,
-              profitability, liquidity, budget performance, income statement
-              results, monthly trends, and geographic performance.
-            </p>
 
             <a href="financial-performance.html">
               View Project →
@@ -644,12 +611,6 @@
               Data Professional Survey Analysis
             </h3>
 
-            <p>
-              Survey dashboard analyzing data professional salaries,
-              job roles, programming language preferences, career-entry
-              difficulty, demographics, and job satisfaction.
-            </p>
-
             <a href="data-professional-survey.html">
               View Project →
             </a>
@@ -683,12 +644,6 @@
             <h3>
               Logistics Operations Analysis
             </h3>
-
-            <p>
-              Logistics operations dashboard analyzing shipment performance,
-              delivery delays, fleet utilization, high-volume locations,
-              delay causes, and operational weather conditions.
-            </p>
 
             <a href="logistics.html">
               View Project →
@@ -724,12 +679,6 @@
               Hospital Patient Metrics
             </h3>
 
-            <p>
-              Healthcare analytics dashboard examining patient volume,
-              admission performance, waiting times, satisfaction,
-              demographics, and department referral patterns.
-            </p>
-
             <a href="hospital-patient-metrics.html">
               View Project →
             </a>
@@ -764,13 +713,6 @@
               Social Media Performance Dashboard
             </h3>
 
-            <p>
-              Social media analytics report tracking audience growth,
-              impressions, engagement, posting activity, top-performing
-              content, and platform performance across Facebook,
-              Instagram, and X.
-            </p>
-
             <a href="social-media-performance.html">
               View Project →
             </a>
@@ -804,12 +746,6 @@
             <h3>
               Pizza Sales Performance Analysis
             </h3>
-
-            <p>
-              Pizza sales dashboard analyzing revenue, order trends,
-              peak ordering periods, customer preferences, pizza categories,
-              sizes, and lower-performing menu items.
-            </p>
 
             <a href="pizza-sales.html">
               View Project →
@@ -871,13 +807,6 @@
               Western Midlands University (WMU) Student Information ETL & Data Warehouse
             </h3>
 
-            <p>
-              End-to-end student information ETL and data warehouse solution
-              built with SSIS, SQL Server, and T-SQL. The project includes
-              staging, data validation, exception handling, audit reporting,
-              and a reporting-ready star schema.
-            </p>
-
             <a href="wmu-etl.html">
               View Project →
             </a>
@@ -936,13 +865,6 @@
             <h3>
               King County Housing Price Prediction & Market Segmentation
             </h3>
-
-            <p>
-              End-to-end housing market analysis using statistical modeling,
-              machine learning, and clustering to predict residential property
-              prices and identify distinct market segments across King County,
-              Washington.
-            </p>
 
             <a href="projects/king-county-housing/">
               View Project →
