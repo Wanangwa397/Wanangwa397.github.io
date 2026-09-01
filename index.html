@@ -30,7 +30,7 @@
     }
 
     .nav-container {
-      max-width: 1100px;
+      max-width: 1450px;
       margin: auto;
       display: flex;
       justify-content: space-between;
@@ -61,7 +61,7 @@
     }
 
     .hero-container {
-      max-width: 1100px;
+      max-width: 1450px;
       margin: auto;
     }
 
@@ -101,7 +101,7 @@
     }
 
     .section-container {
-      max-width: 1100px;
+      max-width: 1450px;
       margin: auto;
     }
 
@@ -126,11 +126,11 @@
       gap: 25px;
     }
 
-    /* POWER BI - 4 PROJECTS PER ROW */
+    /* POWER BI - 4 WIDE PROJECTS PER ROW */
 
     .powerbi-section .project-grid {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px;
     }
 
     .project-card {
@@ -151,8 +151,6 @@
       display: block;
     }
 
-    /* Standard thumbnails */
-
     .project-thumbnail {
       width: 100%;
       height: 230px;
@@ -162,13 +160,16 @@
       border-bottom: 1px solid #e2e8f0;
     }
 
-    /* Power BI thumbnails */
+    /* Larger Power BI thumbnails */
 
     .powerbi-section .project-thumbnail {
-      height: 180px;
+      width: 100%;
+      height: 215px;
+      object-fit: cover;
+      object-position: top;
     }
 
-    /* WMU thumbnail - show entire banner */
+    /* WMU thumbnail */
 
     .wmu-thumbnail {
       width: 100%;
@@ -262,7 +263,7 @@
     }
 
     .contact-container {
-      max-width: 1100px;
+      max-width: 1450px;
       margin: auto;
     }
 
@@ -327,9 +328,17 @@
       padding: 30px;
     }
 
+    /* SMALLER DESKTOP / TABLET */
+
+    @media (max-width: 1200px) {
+      .powerbi-section .project-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
     /* TABLET */
 
-    @media (max-width: 1000px) {
+    @media (max-width: 900px) {
       .powerbi-section .project-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -344,6 +353,7 @@
     }
 
     @media (max-width: 700px) {
+
       .hero h1 {
         font-size: 38px;
       }
@@ -370,7 +380,7 @@
       }
 
       .powerbi-section .project-thumbnail {
-        height: 200px;
+        height: 220px;
       }
 
       .wmu-thumbnail {
@@ -380,15 +390,19 @@
       .contact-section h2 {
         font-size: 29px;
       }
+
     }
+
   </style>
 </head>
 
 <body>
 
+
   <!-- NAVIGATION -->
 
   <nav>
+
     <div class="nav-container">
 
       <div class="name">
@@ -404,6 +418,7 @@
       </div>
 
     </div>
+
   </nav>
 
 
@@ -454,15 +469,14 @@
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="student-performance.html"
-          >
+          <a class="project-thumbnail-link" href="student-performance.html">
+
             <img
               src="student-performance-thumbnail.png"
               alt="Student Performance Analysis Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -488,15 +502,14 @@
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="sales-performance.html"
-          >
+          <a class="project-thumbnail-link" href="sales-performance.html">
+
             <img
               src="sales-performance-thumbnail.png"
               alt="Sales Performance Analysis Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -522,15 +535,14 @@
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="superstore-sales.html"
-          >
+          <a class="project-thumbnail-link" href="superstore-sales.html">
+
             <img
               src="superstore-sales-thumbnail.png"
               alt="Superstore Sales Analytics Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -552,19 +564,18 @@
         </div>
 
 
-        <!-- FINANCIAL PERFORMANCE ANALYSIS -->
+        <!-- FINANCIAL PERFORMANCE -->
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="financial-performance.html"
-          >
+          <a class="project-thumbnail-link" href="financial-performance.html">
+
             <img
               src="financial-performance-thumbnail.png"
               alt="Financial Performance Analysis Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -586,19 +597,18 @@
         </div>
 
 
-        <!-- DATA PROFESSIONAL SURVEY ANALYSIS -->
+        <!-- DATA PROFESSIONAL SURVEY -->
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="data-professional-survey.html"
-          >
+          <a class="project-thumbnail-link" href="data-professional-survey.html">
+
             <img
               src="data-professional-survey-thumbnail.png"
               alt="Data Professional Survey Analysis Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -620,19 +630,51 @@
         </div>
 
 
+        <!-- HR ATTRITION -->
+
+        <div class="project-card powerbi-card">
+
+          <a class="project-thumbnail-link" href="hr-attrition.html">
+
+            <img
+              src="hr-attrition-thumbnail.png"
+              alt="HR Attrition Analysis Power BI dashboard"
+              class="project-thumbnail"
+            >
+
+          </a>
+
+          <div class="project-content">
+
+            <span class="project-label powerbi-label">
+              Power BI
+            </span>
+
+            <h3>
+              HR Attrition Analysis
+            </h3>
+
+            <a href="hr-attrition.html">
+              View Project →
+            </a>
+
+          </div>
+
+        </div>
+
+
         <!-- LOGISTICS -->
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="logistics.html"
-          >
+          <a class="project-thumbnail-link" href="logistics.html">
+
             <img
               src="logistics-thumbnail.png"
               alt="Logistics Operations Analysis Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -658,15 +700,14 @@
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="hospital-patient-metrics.html"
-          >
+          <a class="project-thumbnail-link" href="hospital-patient-metrics.html">
+
             <img
               src="hospital-patient-metrics-thumbnail.png"
               alt="Hospital Patient Metrics Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -692,15 +733,14 @@
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="social-media-performance.html"
-          >
+          <a class="project-thumbnail-link" href="social-media-performance.html">
+
             <img
               src="social-media-performance-thumbnail.png"
               alt="Social Media Performance Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -722,19 +762,18 @@
         </div>
 
 
-        <!-- PIZZA SALES PERFORMANCE -->
+        <!-- PIZZA SALES -->
 
         <div class="project-card powerbi-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="pizza-sales.html"
-          >
+          <a class="project-thumbnail-link" href="pizza-sales.html">
+
             <img
               src="pizza-sales-thumbnail.png"
               alt="Pizza Sales Performance Analysis Power BI dashboard"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -786,15 +825,14 @@
 
         <div class="project-card analytics-card">
 
-          <a
-            class="project-thumbnail-link"
-            href="wmu-etl.html"
-          >
+          <a class="project-thumbnail-link" href="wmu-etl.html">
+
             <img
               src="wmu-etl-project-thumbnail.png"
               alt="Western Midlands University Student Information ETL and Data Warehouse"
               class="wmu-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -814,6 +852,7 @@
           </div>
 
         </div>
+
 
       </div>
 
@@ -849,11 +888,13 @@
             class="project-thumbnail-link"
             href="projects/king-county-housing/"
           >
+
             <img
               src="projects/king-county-housing/assets/king-county-thumbnail.png"
               alt="King County Housing Price Prediction and Market Segmentation"
               class="project-thumbnail"
             >
+
           </a>
 
           <div class="project-content">
@@ -899,6 +940,7 @@
       </p>
 
       <div class="contact-grid">
+
 
         <div class="contact-card">
 
@@ -951,6 +993,7 @@
 
         </div>
 
+
       </div>
 
     </div>
@@ -967,6 +1010,7 @@
     </p>
 
   </footer>
+
 
 </body>
 </html>
