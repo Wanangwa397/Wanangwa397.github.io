@@ -118,10 +118,17 @@
       font-size: 17px;
     }
 
+    /* STANDARD PROJECT GRID */
     .project-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 25px;
+    }
+
+    /* POWER BI - 4 PROJECTS PER ROW */
+    .powerbi-section .project-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
     }
 
     .project-card {
@@ -152,6 +159,11 @@
       border-bottom: 1px solid #e2e8f0;
     }
 
+    /* Slightly shorter thumbnails for 4-column Power BI cards */
+    .powerbi-section .project-thumbnail {
+      height: 180px;
+    }
+
     /* WMU thumbnail - show the ENTIRE banner */
     .wmu-thumbnail {
       width: 100%;
@@ -164,6 +176,11 @@
 
     .project-content {
       padding: 28px 30px 30px;
+    }
+
+    /* Slightly tighter Power BI cards */
+    .powerbi-section .project-content {
+      padding: 22px 22px 25px;
     }
 
     .powerbi-card {
@@ -208,9 +225,17 @@
       color: #0f172a;
     }
 
+    .powerbi-section .project-card h3 {
+      font-size: 20px;
+    }
+
     .project-card p {
       color: #64748b;
       margin-bottom: 20px;
+    }
+
+    .powerbi-section .project-card p {
+      font-size: 15px;
     }
 
     .project-card a {
@@ -312,6 +337,20 @@
       padding: 30px;
     }
 
+    /* TABLET */
+    @media (max-width: 1000px) {
+      .powerbi-section .project-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      .powerbi-section .project-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 700px) {
       .hero h1 {
         font-size: 38px;
@@ -335,6 +374,10 @@
       }
 
       .project-thumbnail {
+        height: 200px;
+      }
+
+      .powerbi-section .project-thumbnail {
         height: 200px;
       }
 
