@@ -92,6 +92,10 @@
       background: #fffbea;
     }
 
+    .tableau-section {
+      background: #f0f9ff;
+    }
+
     .analytics-section {
       background: #eff6ff;
     }
@@ -126,11 +130,17 @@
       gap: 25px;
     }
 
-    /* POWER BI - 4 WIDE PROJECTS PER ROW */
+    /* POWER BI - 4 PROJECTS PER ROW */
 
     .powerbi-section .project-grid {
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 24px;
+    }
+
+    /* TABLEAU */
+
+    .tableau-section .project-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
     }
 
     .project-card {
@@ -160,9 +170,14 @@
       border-bottom: 1px solid #e2e8f0;
     }
 
-    /* Larger Power BI thumbnails */
-
     .powerbi-section .project-thumbnail {
+      width: 100%;
+      height: 215px;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .tableau-section .project-thumbnail {
       width: 100%;
       height: 215px;
       object-fit: cover;
@@ -192,6 +207,10 @@
       border-top: 5px solid #f2c811;
     }
 
+    .tableau-card {
+      border-top: 5px solid #0ea5e9;
+    }
+
     .analytics-card {
       border-top: 5px solid #2563eb;
     }
@@ -212,6 +231,11 @@
     .powerbi-label {
       background: #fff3a3;
       color: #665500;
+    }
+
+    .tableau-label {
+      background: #e0f2fe;
+      color: #0369a1;
     }
 
     .analytics-label {
@@ -242,6 +266,10 @@
 
     .powerbi-card a {
       color: #a16207;
+    }
+
+    .tableau-card a {
+      color: #0284c7;
     }
 
     .analytics-card a {
@@ -328,23 +356,17 @@
       padding: 30px;
     }
 
-    /* SMALLER DESKTOP / TABLET */
-
     @media (max-width: 1200px) {
       .powerbi-section .project-grid {
         grid-template-columns: repeat(3, 1fr);
       }
     }
 
-    /* TABLET */
-
     @media (max-width: 900px) {
       .powerbi-section .project-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
-
-    /* MOBILE */
 
     @media (max-width: 600px) {
       .powerbi-section .project-grid {
@@ -390,19 +412,15 @@
       .contact-section h2 {
         font-size: 29px;
       }
-
     }
-
   </style>
 </head>
 
 <body>
 
-
   <!-- NAVIGATION -->
 
   <nav>
-
     <div class="nav-container">
 
       <div class="name">
@@ -412,13 +430,13 @@
       <div>
         <a href="#about">About</a>
         <a href="#powerbi">Power BI</a>
+        <a href="#tableau">Tableau</a>
         <a href="#analytics">Analytics</a>
         <a href="#statistics">Statistics</a>
         <a href="#contact">Contact</a>
       </div>
 
     </div>
-
   </nav>
 
 
@@ -531,7 +549,7 @@
         </div>
 
 
-        <!-- SUPERSTORE SALES ANALYTICS -->
+        <!-- SUPERSTORE SALES -->
 
         <div class="project-card powerbi-card">
 
@@ -794,6 +812,63 @@
 
         </div>
 
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- TABLEAU PROJECTS -->
+
+  <section class="portfolio-section tableau-section" id="tableau">
+
+    <div class="section-container">
+
+      <h2 class="section-title">
+        Tableau Projects
+      </h2>
+
+      <p class="section-description">
+        Interactive data visualization projects built in Tableau, with dashboards
+        designed for exploration, filtering, and clear business storytelling.
+      </p>
+
+      <div class="project-grid">
+
+
+        <!-- NETFLIX TABLEAU -->
+
+        <div class="project-card tableau-card">
+
+          <a class="project-thumbnail-link" href="netflix-tableau.html">
+
+            <img
+              src="netflix-tableau-thumbnail.png"
+              alt="Netflix Movies and TV Shows Analysis Tableau dashboard"
+              class="project-thumbnail"
+            >
+
+          </a>
+
+          <div class="project-content">
+
+            <span class="project-label tableau-label">
+              Tableau
+            </span>
+
+            <h3>
+              Netflix Movies & TV Shows Analysis
+            </h3>
+
+            <a href="netflix-tableau.html">
+              View Interactive Project →
+            </a>
+
+          </div>
+
+        </div>
+
 
       </div>
 
@@ -852,7 +927,6 @@
           </div>
 
         </div>
-
 
       </div>
 
@@ -915,7 +989,6 @@
 
         </div>
 
-
       </div>
 
     </div>
@@ -935,7 +1008,7 @@
 
       <p class="contact-intro">
         Interested in discussing data analytics, business intelligence,
-        Power BI, data engineering, or potential opportunities?
+        Power BI, Tableau, data engineering, or potential opportunities?
         Feel free to connect with me through any of the channels below.
       </p>
 
@@ -993,7 +1066,6 @@
 
         </div>
 
-
       </div>
 
     </div>
@@ -1010,7 +1082,6 @@
     </p>
 
   </footer>
-
 
 </body>
 </html>
