@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>University Institutional Research Dashboard | Wanangwa Msiska</title>
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      color: #1f2937;
+      background: #ffffff;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: auto;
+      padding: 40px 25px 70px;
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: bold;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-top: 35px;
+      margin-bottom: 10px;
+      color: #111827;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      font-size: 19px;
+      max-width: 850px;
+      margin-bottom: 25px;
+    }
+
+    .tags {
+      margin-bottom: 40px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #eef2ff;
+      padding: 7px 13px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .section {
+      margin-top: 45px;
+    }
+
+    .section h2 {
+      font-size: 27px;
+      margin-bottom: 12px;
+      color: #111827;
+    }
+
+    .section p {
+      max-width: 880px;
+      color: #4b5563;
+    }
+
+    .pdf-preview {
+      width: 100%;
+      height: 780px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 700px) {
+      h1 {
+        font-size: 34px;
+      }
+
+      .pdf-preview {
+        height: 600px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <a class="back-link" href="index.html">← Back to Portfolio</a>
+
+    <h1>University Institutional Research Dashboard</h1>
+
+    <p class="subtitle">
+      A comprehensive Power BI solution analyzing university admissions,
+      enrollment, retention, graduation, academic performance, financial aid,
+      and course outcomes.
+    </p>
+
+    <div class="tags">
+      <span class="tag">Power BI</span>
+      <span class="tag">DAX</span>
+      <span class="tag">Power Query</span>
+      <span class="tag">Data Modeling</span>
+      <span class="tag">Data Validation</span>
+      <span class="tag">Institutional Research</span>
+    </div>
+
+    <div class="section">
+      <h2>Project Overview</h2>
+
+      <p>
+        This project uses Power BI to analyze a synthetic university dataset
+        containing 25,000 students and more than 470,000 course registration
+        records. It brings together institutional data covering admissions,
+        enrollment, academic performance, financial aid, graduation, students,
+        programs, courses, faculty, countries, dates, and academic terms.
+      </p>
+
+      <p>
+        The institutional overview presents key indicators such as enrolled
+        students, yield rate, first-year retention rate, six-year graduation
+        rate, average term GPA, and financial aid coverage. These measures
+        provide a concise view of institutional performance and student
+        outcomes.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>Data Model and Validation</h2>
+
+      <p>
+        The dashboard is supported by a relational data model connecting
+        admissions, enrollment, academic performance, course registration,
+        financial aid, and graduation fact tables with student, program,
+        course, faculty, country, date, and term dimensions. Hierarchies were
+        created to support analysis by academic year, term, college,
+        department, program, course level, region, and country.
+      </p>
+
+      <p>
+        Data quality checks were performed before reporting to identify and
+        correct invalid dates, missing values, inconsistent categories,
+        zero-credit courses, and unmatched student records. Thirty-three
+        validation tests were completed successfully to confirm the accuracy
+        and consistency of the final dataset.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>Key Analysis Areas</h2>
+
+      <p>
+        The analysis examines applicant conversion, admission and yield rates,
+        enrollment trends, student demographics, academic performance, course
+        outcomes, financial aid distribution, first-year retention, and
+        four-year and six-year graduation rates. Results can be compared across
+        colleges, departments, programs, cohorts, residency groups, and other
+        student populations.
+      </p>
+
+      <p>
+        Dedicated dashboard pages allow institutional leaders and analysts to
+        identify performance trends, compare student outcomes, evaluate
+        differences between academic units, and explore factors associated with
+        persistence and degree completion.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>Dashboard</h2>
+
+      <iframe
+        class="pdf-preview"
+        src="university-institutional-research-dashboard.pdf"
+        title="University Institutional Research Dashboard PDF">
+      </iframe>
+
+      <br>
+
+      <a
+        class="button"
+        href="university-institutional-research-dashboard.pdf"
+        target="_blank"
+        rel="noopener noreferrer">
+        Open Full PDF
+      </a>
+    </div>
+
+  </div>
+
+</body>
+</html>
