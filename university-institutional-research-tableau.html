@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive Tableau institutional research dashboard by Wanangwa Msiska, covering enrollment, retention, graduation, GPA, and financial aid.">
+  <title>University Institutional Research Overview | Wanangwa Msiska</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1f2937;
+      background: #f8fafc;
+      line-height: 1.6;
+    }
+
+    nav {
+      background: #0f172a;
+      padding: 22px 30px;
+    }
+
+    .nav-container,
+    .page-container {
+      max-width: 1450px;
+      margin: auto;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav .name {
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    nav a {
+      color: #dbeafe;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      color: #f2c811;
+    }
+
+    .project-hero {
+      background: linear-gradient(135deg, #0f172a, #1e3a5f);
+      color: #ffffff;
+      padding: 72px 30px;
+    }
+
+    .project-label {
+      display: inline-block;
+      padding: 6px 13px;
+      margin-bottom: 18px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .project-hero h1 {
+      max-width: 900px;
+      margin-bottom: 18px;
+      font-size: clamp(36px, 5vw, 56px);
+      line-height: 1.12;
+    }
+
+    .project-hero p {
+      max-width: 850px;
+      color: #cbd5e1;
+      font-size: 18px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 8px;
+      background: #0ea5e9;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .button.secondary {
+      border: 1px solid #94a3b8;
+      background: transparent;
+    }
+
+    .button:hover {
+      background: #0284c7;
+    }
+
+    .button.secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    main {
+      padding: 55px 30px 80px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 28px;
+      margin-bottom: 34px;
+    }
+
+    .content-card {
+      padding: 30px;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+    }
+
+    .content-card h2 {
+      margin-bottom: 14px;
+      color: #0f172a;
+      font-size: 26px;
+    }
+
+    .content-card ul {
+      padding-left: 21px;
+    }
+
+    .content-card li + li {
+      margin-top: 8px;
+    }
+
+    .tool-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .tool-list span {
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .dashboard-card {
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    .dashboard-heading {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      padding: 8px 8px 18px;
+    }
+
+    .dashboard-heading h2 {
+      margin: 0;
+    }
+
+    .dashboard-heading p {
+      color: #64748b;
+      text-align: right;
+    }
+
+    .tableau-embed {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 14 / 9;
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background: #e5e7eb;
+    }
+
+    .tableau-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    footer {
+      padding: 30px;
+      background: #080f1f;
+      color: #94a3b8;
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-heading {
+        display: block;
+      }
+
+      .dashboard-heading p {
+        margin-top: 6px;
+        text-align: left;
+      }
+
+      .tableau-embed {
+        aspect-ratio: 4 / 5;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .project-hero {
+        padding-top: 55px;
+      }
+
+      .nav-container {
+        gap: 18px;
+      }
+
+      .content-card {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <div class="name">Wanangwa Msiska</div>
+      <a href="index.html#tableau">← Back to Portfolio</a>
+    </div>
+  </nav>
+
+  <header class="project-hero">
+    <div class="page-container">
+      <span class="project-label">Tableau</span>
+      <h1>University Institutional Research Overview</h1>
+      <p>
+        An interactive executive dashboard that brings together enrollment,
+        academic performance, first-year retention, six-year graduation, and
+        financial-aid indicators for institutional decision-making.
+      </p>
+
+      <div class="button-row">
+        <a
+          class="button"
+          href="https://public.tableau.com/app/profile/wanangwa.msiska/viz/UniversityInstitutionalResearchOverview/Dashboard1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View on Tableau Public →
+        </a>
+
+        <a class="button secondary" href="#interactive-dashboard">
+          Explore Dashboard
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-container">
+      <section class="summary-grid">
+        <article class="content-card">
+          <h2>Project Overview</h2>
+          <p>
+            This project uses synthetic university data to demonstrate how an
+            institutional research team can monitor student outcomes from one
+            concise dashboard. The layout prioritizes high-level KPIs while
+            retaining enough detail to compare enrollment and graduation
+            outcomes across academic years, terms, and colleges.
+          </p>
+
+          <div class="tool-list">
+            <span>Tableau Public</span>
+            <span>Calculated Fields</span>
+            <span>Dashboard Actions</span>
+            <span>Interactive Tooltips</span>
+          </div>
+        </article>
+
+        <article class="content-card">
+          <h2>Dashboard Features</h2>
+          <ul>
+            <li>Executive KPIs for enrollment, GPA, retention, graduation, and aid coverage</li>
+            <li>Enrollment trends by academic year and term</li>
+            <li>College-level enrollment and graduation comparisons</li>
+            <li>Click-to-filter dashboard actions</li>
+            <li>Cross-chart college highlighting on hover</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="content-card dashboard-card" id="interactive-dashboard">
+        <div class="dashboard-heading">
+          <h2>Interactive Dashboard</h2>
+          <p>Click marks to filter and hover over colleges to compare.</p>
+        </div>
+
+        <div class="tableau-embed">
+          <iframe
+            title="University Institutional Research Overview Tableau dashboard"
+            src="https://public.tableau.com/views/UniversityInstitutionalResearchOverview/Dashboard1?:showVizHome=no&amp;:embed=true"
+            loading="lazy"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 Wanangwa Msiska</p>
+  </footer>
+</body>
+</html>
